@@ -1,0 +1,60 @@
+---
+- hosts: web
+  tasks:
+  - name: Install prerequisite packages
+    package:
+      name:
+        - nginx
+        - python3-pip
+        - rssh
+      state: present
+
+  - name: Install Ansible PKI prerequisites.
+    pip:
+      name: pyOpenSSL
+
+  - name: Create directory for documentation files
+    file:
+      path: /home/user/www-data
+      state: directory
+      owner: user
+      group: user
+
+  - name: Generate an OpenSSL private key
+    openssl_privatekey:
+      path: /etc/ssl/private/documentation.key
+    register: openssl_private_key_result
+
+  - name: Generate an OpenSSL Certificate Signing Request
+    openssl_csr:
+      path: /etc/ssl/private/documentation.csr
+      privatekey_path: /etc/ssl/private/documentation.key
+      common_name: kampiraj.tk
+    register: openssl_csr_result
+
+  - name: Generate a Self Signed OpenSSL certificate
+    openssl_certificate:
+      path: /etc/ssl/certs/documentation.crt
+      privatekey_path: /etc/ssl/private/documentation.key
+      csr_path: /etc/ssl/private/documentation.csr
+      provider: selfsigned
+    register: openssl_crt_result
+
+  - name: Deploy the rssh config file
+    template:
+      src: rssh.conf
+      dest: /etc/rssh.conf
+
+  - name: Deploy the nginx config file
+    template:
+      src: ./nginx.conf
+      dest: /etc/nginx/nginx.conf
+      validate: "nginx -t -c %s"
+    register: nginx_conf_result
+
+  - name: Restart nginx
+    service:
+      name: nginx
+      state: restarted
+    when: openssl_private_key_result.changed or openssl_csr_result.changed or openssl_crt_result.changed or nginx_conf_result.changed
+...
