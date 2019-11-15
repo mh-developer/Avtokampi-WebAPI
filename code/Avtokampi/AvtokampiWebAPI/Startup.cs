@@ -41,6 +41,7 @@ namespace AvtokampiWebAPI
             services.AddEntityFrameworkNpgsql().AddDbContext<avtokampiContext>(options =>
                 options.UseNpgsql(Configuration.GetConnectionString("Avtokampi"))
             );
+            services.AddDbContext<avtokampiContext>(options => options.UseNpgsql(Configuration.GetConnectionString("Avtokampi")));
 
 
             services.Configure<TokenManagement>(Configuration.GetSection("tokenManagement"));

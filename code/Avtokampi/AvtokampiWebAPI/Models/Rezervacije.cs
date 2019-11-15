@@ -5,14 +5,21 @@ namespace AvtokampiWebAPI.Models
 {
     public partial class Rezervacije
     {
-        public int Id { get; set; }
-        public int UserId { get; set; }
-        public int KampId { get; set; }
-        public string Od { get; set; }
-        public string Do { get; set; }
-        public int Cena { get; set; }
+        public int RezervacijaId { get; set; }
+        public DateTime? TrajanjeOd { get; set; }
+        public DateTime? TrajanjeDo { get; set; }
+        public DateTime? CreatedAt { get; set; }
+        public DateTime? UpdatedAt { get; set; }
+        public int Uporabnik { get; set; }
+        public int Avtokamp { get; set; }
+        public int KampirnoMesto { get; set; }
+        public int VrstaKampiranja { get; set; }
+        public int StatusRezervacije { get; set; }
 
-        public virtual Kampi Kamp { get; set; }
-        public virtual Users User { get; set; }
+        public virtual Avtokampi AvtokampNavigation { get; set; }
+        public virtual KampirnaMesta KampirnoMestoNavigation { get; set; }
+        public virtual StatusRezervacije StatusRezervacijeNavigation { get; set; }
+        public virtual Uporabniki UporabnikNavigation { get; set; }
+        public virtual VrstaKampiranja VrstaKampiranjaNavigation { get; set; }
     }
 }

@@ -5,12 +5,15 @@ namespace AvtokampiWebAPI.Models
 {
     public partial class Mnenja
     {
-        public int Id { get; set; }
-        public int UserId { get; set; }
-        public int KampId { get; set; }
+        public int MnenjeId { get; set; }
         public string Mnenje { get; set; }
+        public int? Ocena { get; set; }
+        public DateTime? CreatedAt { get; set; }
+        public DateTime? UpdatedAt { get; set; }
+        public int Uporabnik { get; set; }
+        public int Avtokamp { get; set; }
 
-        public virtual Kampi Kamp { get; set; }
-        public virtual Users User { get; set; }
+        public virtual Avtokampi AvtokampNavigation { get; set; }
+        public virtual Uporabniki UporabnikNavigation { get; set; }
     }
 }
