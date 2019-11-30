@@ -8,7 +8,6 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace AvtokampiWebAPI.Services
 {
@@ -24,17 +23,18 @@ namespace AvtokampiWebAPI.Services
         public bool IsAuthenticated(TokenModel request, out string token)
         {
             token = string.Empty;
-#warning TODO AD authentication
-            //if (!_userManagementService.IsValidUser(request.Username, request.Password)) return false;
-            var zaposleni = request.Username;
+
+            if (!IsValidUser(request.Username, request.Password)) return false;
+
+            var zaposleni = ;
             if (zaposleni == null) return false;
 
             var claim = new List<Claim>()
             {
                 new Claim(ClaimTypes.Name, request.Username),
-                new Claim(ClaimTypes.Role, "Administrator"), // pravice ...
-                new Claim(ClaimTypes.Role, "Reader")
+                new Claim(ClaimTypes.Role, "Administrator")
             };
+
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_tokenManagement.Secret));
             var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
@@ -47,6 +47,23 @@ namespace AvtokampiWebAPI.Services
             );
             token = new JwtSecurityTokenHandler().WriteToken(jwtToken);
             return true;
+        }
+
+        public bool IsValidUser(string username, string password)
+        {
+            using (var _db = new avtokampiContext())
+            {
+                if(!string.IsNullOrWhiteSpace(username) && !string.IsNullOrWhiteSpace(password))
+                {
+                    var user = _db.Uporabniki.Where(o => o.Email == username).FirstOrDefault();
+                    if(user != null && user.Geslo == password)
+                    {
+                        return true;
+                    }
+                    return false;
+                }
+                return false;
+            }
         }
     }
 }

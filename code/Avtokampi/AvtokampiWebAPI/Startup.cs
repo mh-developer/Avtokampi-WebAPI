@@ -1,10 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 using AvtokampiWebAPI.Models;
 using AvtokampiWebAPI.Services;
 using AvtokampiWebAPI.Services.Interfaces;
@@ -12,15 +5,17 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Reflection;
+using System.Text;
 
 namespace AvtokampiWebAPI
 {
@@ -38,12 +33,15 @@ namespace AvtokampiWebAPI
         {
             services.AddControllers();
 
+            // DB models service
             services.AddEntityFrameworkNpgsql().AddDbContext<avtokampiContext>(options =>
                 options.UseNpgsql(Configuration.GetConnectionString("Avtokampi"))
             );
             services.AddDbContext<avtokampiContext>(options => options.UseNpgsql(Configuration.GetConnectionString("Avtokampi")));
 
 
+
+            // JWT Token services
             services.Configure<TokenManagement>(Configuration.GetSection("tokenManagement"));
             var token = Configuration.GetSection("tokenManagement").Get<TokenManagement>();
             var secret = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(token.Secret));
@@ -72,8 +70,14 @@ namespace AvtokampiWebAPI
             });
 
 
+            // Repository services
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddScoped<IAuthRepository, AuthRepository>();
+            services.AddScoped<IAvtokampiRepository, AvtokampiRepository>();
+            services.AddScoped<IKampirnaMestaRepository, KampirnaMestaRepository>();
+            services.AddScoped<IRezervacijeRepository, RezervacijeRepository>();
+            services.AddScoped<IStoritveKampaRepository, StoritveKampaRepository>();
+            services.AddScoped<IUporabnikiRepository, UporabnikiRepository>();
 
 
 
