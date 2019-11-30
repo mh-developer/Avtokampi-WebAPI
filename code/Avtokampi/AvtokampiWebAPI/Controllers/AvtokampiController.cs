@@ -1,5 +1,8 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using AvtokampiWebAPI.Services;
+using AvtokampiWebAPI.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 
 namespace AvtokampiWebAPI.Controllers
 {
@@ -9,5 +12,13 @@ namespace AvtokampiWebAPI.Controllers
     [Authorize]
     public class AvtokampiController : ControllerBase
     {
+        private readonly IAvtokampiRepository _avtokampiService;
+        private readonly ILogger _logger;
+
+        public AvtokampiController(AvtokampiRepository avtokampiService, ILogger<AvtokampiController> logger)
+        {
+            _avtokampiService = avtokampiService;
+            _logger = logger;
+        }
     }
 }

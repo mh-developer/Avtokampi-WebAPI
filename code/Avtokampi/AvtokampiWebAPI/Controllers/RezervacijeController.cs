@@ -1,5 +1,8 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using AvtokampiWebAPI.Services;
+using AvtokampiWebAPI.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 
 namespace AvtokampiWebAPI.Controllers
 {
@@ -9,5 +12,13 @@ namespace AvtokampiWebAPI.Controllers
     [Authorize]
     public class RezervacijeController : ControllerBase
     {
+        private readonly IRezervacijeRepository _rezervacijeService;
+        private readonly ILogger _logger;
+
+        public RezervacijeController(RezervacijeRepository rezervacijeService, ILogger<RezervacijeController> logger)
+        {
+            _rezervacijeService = rezervacijeService;
+            _logger = logger;
+        }
     }
 }

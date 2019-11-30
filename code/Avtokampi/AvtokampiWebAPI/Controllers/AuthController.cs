@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using AvtokampiWebAPI.Models;
+﻿using AvtokampiWebAPI.Models;
 using AvtokampiWebAPI.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
+using System;
 
 namespace AvtokampiWebAPI.Controllers
 {
@@ -17,10 +14,12 @@ namespace AvtokampiWebAPI.Controllers
     public class AuthController : ControllerBase
     {
         private readonly IAuthRepository _authService;
+        private readonly ILogger _logger;
 
-        public AuthController(IAuthRepository authService)
+        public AuthController(IAuthRepository authService, ILogger<AvtokampiController> logger)
         {
             _authService = authService;
+            _logger = logger;
         }
 
         /// <summary>
@@ -52,7 +51,7 @@ namespace AvtokampiWebAPI.Controllers
 
                 return Unauthorized(/*new ErrorHandlerModel("Napačno uporabniško ime ali geslo", HttpStatusCode.Unauthorized)*/);
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return BadRequest(/*new ErrorHandlerModel(e.Message, HttpStatusCode.BadRequest)*/);
             }
