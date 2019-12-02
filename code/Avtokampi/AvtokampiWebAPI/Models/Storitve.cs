@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections;
 
 namespace AvtokampiWebAPI.Models
 {
@@ -15,6 +16,7 @@ namespace AvtokampiWebAPI.Models
         public string Naziv { get; set; }
         public int KategorijaStoritve { get; set; }
         public int Cenik { get; set; }
+        public BitArray Isactive { get; set; }
 
         public virtual Ceniki CenikNavigation { get; set; }
         public virtual KategorijeStoritev KategorijaStoritveNavigation { get; set; }

@@ -29,6 +29,7 @@ CREATE TABLE IF NOT EXISTS Pravice (
   Pravica_ID INT NOT NULL DEFAULT NEXTVAL ('Pravice_seq'),
   Naziv VARCHAR(45) NULL,
   Opis VARCHAR(45) NULL,
+  isActive BIT NULL,
   PRIMARY KEY (Pravica_ID))
 ;
 
@@ -47,7 +48,8 @@ CREATE TABLE IF NOT EXISTS Uporabniki (
   Slika BYTEA NULL,
   Telefon VARCHAR(45) NULL,
   Email VARCHAR(45) NULL,
-  Geslo VARCHAR(45) NULL,
+  Geslo VARCHAR(100) NULL,
+  isActive BIT NULL,
   Created_at TIMESTAMP(0) NULL,
   Updated_at TIMESTAMP(0) NULL,
   Pravice INT NOT NULL,
@@ -73,6 +75,7 @@ CREATE SEQUENCE Drzave_seq;
 CREATE TABLE IF NOT EXISTS Drzave (
   Drzava_ID INT NOT NULL DEFAULT NEXTVAL ('Drzave_seq'),
   Naziv VARCHAR(45) NULL,
+  isActive BIT NULL,
   PRIMARY KEY (Drzava_ID))
 ;
 
@@ -88,6 +91,7 @@ CREATE TABLE IF NOT EXISTS Regije (
   Regija_ID INT NOT NULL DEFAULT NEXTVAL ('Regije_seq'),
   Naziv VARCHAR(45) NULL,
   Drzava INT NOT NULL,
+  isActive BIT NULL,
   PRIMARY KEY (Regija_ID)
  ,
   CONSTRAINT fk_Regije_Drzave1
@@ -98,33 +102,6 @@ CREATE TABLE IF NOT EXISTS Regije (
 ;
 
 CREATE INDEX fk_Regije_Drzave1_idx ON Regije (Drzava ASC);
-
-
--- -----------------------------------------------------
--- Table `Avtokampi`.`Lokacije`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS Lokacije CASCADE;
-
-CREATE SEQUENCE Lokacije_seq;
-
-CREATE TABLE IF NOT EXISTS Lokacije (
-  Lokacija_ID INT NOT NULL DEFAULT NEXTVAL ('Lokacije_seq'),
-  Naziv VARCHAR(45) NULL,
-  Koordinata_X VARCHAR(45) NULL,
-  Koordinata_Y VARCHAR(45) NULL,
-  Created_at TIMESTAMP(0) NULL,
-  Updated_at TIMESTAMP(0) NULL,
-  Regija INT NOT NULL,
-  PRIMARY KEY (Lokacija_ID)
- ,
-  CONSTRAINT fk_Lokacije_Regije1
-    FOREIGN KEY (Regija)
-    REFERENCES Regije (Regija_ID)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-;
-
-CREATE INDEX fk_Lokacije_Regije1_idx ON Lokacije (Regija ASC);
 
 
 -- -----------------------------------------------------
@@ -140,17 +117,23 @@ CREATE TABLE IF NOT EXISTS Avtokampi (
   Opis VARCHAR(1000) NULL,
   Naslov VARCHAR(100) NULL,
   Telefon VARCHAR(45) NULL,
-  Lokacija INT NOT NULL,
+  Naziv_lokacije VARCHAR(45) NULL,
+  Koordinata_X VARCHAR(45) NULL,
+  Koordinata_Y VARCHAR(45) NULL,
+  isActive BIT NULL,
+  Created_at TIMESTAMP(0) NULL,
+  Updated_at TIMESTAMP(0) NULL,
+  Regija INT NOT NULL,
   PRIMARY KEY (Avtokamp_ID)
  ,
-  CONSTRAINT fk_Avtokampi_Lokacije1
-    FOREIGN KEY (Lokacija)
-    REFERENCES Lokacije (Lokacija_ID)
+  CONSTRAINT fk_Avtokampi_Regije
+    FOREIGN KEY (Regija)
+    REFERENCES Regije (Regija_ID)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ;
 
-CREATE INDEX fk_Avtokampi_Lokacije1_idx ON Avtokampi (Lokacija ASC);
+CREATE INDEX fk_Avtokampi_Regije_idx ON Avtokampi (Regija ASC);
 
 
 -- -----------------------------------------------------
@@ -163,6 +146,7 @@ CREATE SEQUENCE Kategorije_seq;
 CREATE TABLE IF NOT EXISTS Kategorije (
   Kategorija_ID INT NOT NULL DEFAULT NEXTVAL ('Kategorije_seq'),
   Naziv VARCHAR(45) NULL,
+  isActive BIT NULL,
   Created_at TIMESTAMP(0) NULL,
   Updated_at TIMESTAMP(0) NULL,
   PRIMARY KEY (Kategorija_ID))
@@ -180,6 +164,7 @@ CREATE TABLE IF NOT EXISTS Kampirna_mesta (
   Kampirno_mesto_ID INT NOT NULL DEFAULT NEXTVAL ('Kampirna_mesta_seq'),
   Naziv VARCHAR(45) NULL,
   Velikost VARCHAR(45) NULL,
+  isActive BIT NULL,
   Created_at TIMESTAMP(0) NULL,
   Updated_at TIMESTAMP(0) NULL,
   Avtokamp INT NOT NULL,
@@ -212,6 +197,7 @@ CREATE SEQUENCE Vrsta_kampiranja_seq;
 CREATE TABLE IF NOT EXISTS Vrsta_kampiranja (
   Vrsta_kampiranja_ID INT NOT NULL DEFAULT NEXTVAL ('Vrsta_kampiranja_seq'),
   Naziv VARCHAR(45) NULL,
+  isActive BIT NULL,
   PRIMARY KEY (Vrsta_kampiranja_ID))
 ;
 
@@ -226,6 +212,7 @@ CREATE SEQUENCE Status_rezervacije_seq;
 CREATE TABLE IF NOT EXISTS Status_rezervacije (
   Status_rezervacije_ID INT NOT NULL DEFAULT NEXTVAL ('Status_rezervacije_seq'),
   Naziv VARCHAR(45) NULL,
+  isActive BIT NULL,
   PRIMARY KEY (Status_rezervacije_ID))
 ;
 
@@ -248,6 +235,7 @@ CREATE TABLE IF NOT EXISTS Rezervacije (
   Kampirno_mesto INT NOT NULL,
   Vrsta_kampiranja INT NOT NULL,
   Status_rezervacije INT NOT NULL,
+  isActive BIT NULL,
   PRIMARY KEY (Rezervacija_ID)
  ,
   CONSTRAINT fk_Rezervacije_Uporabniki1
@@ -294,6 +282,7 @@ CREATE SEQUENCE Kategorije_storitev_seq;
 CREATE TABLE IF NOT EXISTS Kategorije_storitev (
   Kategorija_storitve_ID INT NOT NULL DEFAULT NEXTVAL ('Kategorije_storitev_seq'),
   Naziv VARCHAR(45) NULL,
+  isActive BIT NULL,
   PRIMARY KEY (Kategorija_storitve_ID))
 ;
 
@@ -312,6 +301,7 @@ CREATE TABLE IF NOT EXISTS Ceniki (
   Created_at TIMESTAMP(0) NULL,
   Updated_at TIMESTAMP(0) NULL,
   Avtokamp INT NOT NULL,
+  isActive BIT NULL,
   PRIMARY KEY (Cenik_ID)
  ,
   CONSTRAINT fk_Ceniki_Avtokampi1
@@ -336,6 +326,7 @@ CREATE TABLE IF NOT EXISTS Storitve (
   Naziv VARCHAR(45) NULL,
   Kategorija_storitve INT NOT NULL,
   Cenik INT NOT NULL,
+  isActive BIT NULL,
   PRIMARY KEY (Storitev_ID)
  ,
   CONSTRAINT fk_Storitve_Kategorije_storitev1
@@ -369,6 +360,7 @@ CREATE TABLE IF NOT EXISTS Mnenja (
   Updated_at TIMESTAMP(0) NULL,
   Uporabnik INT NOT NULL,
   Avtokamp INT NOT NULL,
+  isActive BIT NULL,
   PRIMARY KEY (Mnenje_ID)
  ,
   CONSTRAINT fk_Mnenja_Uporabniki1
@@ -400,6 +392,7 @@ CREATE TABLE IF NOT EXISTS Slike (
   Created_at TIMESTAMP(0) NULL,
   Updated TIMESTAMP(0) NULL,
   Avtokamp INT NOT NULL,
+  isActive BIT NULL,
   PRIMARY KEY (Slika_ID)
  ,
   CONSTRAINT fk_Slike_Avtokampi1
@@ -423,6 +416,7 @@ CREATE TABLE IF NOT EXISTS Storitve_kampirnih_mest (
   Storitve_kampirnih_mest_ID INT NOT NULL DEFAULT NEXTVAL ('Storitve_kampirnih_mest_seq'),
   Kampirno_mesto INT NOT NULL,
   Storitev INT NOT NULL,
+  isActive BIT NULL,
   PRIMARY KEY (Storitve_kampirnih_mest_ID)
  ,
   CONSTRAINT fk_Storitve_kampirnih_mest_Kampirna_mesta1
@@ -453,6 +447,7 @@ CREATE TABLE IF NOT EXISTS Soritve_cenikov (
   Ceniki_Cenik_ID INT NOT NULL,
   Storitve_Storitev_ID INT NOT NULL,
   Avtokampi_Avtokamp_ID INT NOT NULL,
+  isActive BIT NULL,
   PRIMARY KEY (Soritve_cenikov_ID)
  ,
   CONSTRAINT fk_Soritve_cenikov_Ceniki1

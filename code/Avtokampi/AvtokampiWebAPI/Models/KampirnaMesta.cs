@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections;
 
 namespace AvtokampiWebAPI.Models
 {
@@ -14,6 +15,7 @@ namespace AvtokampiWebAPI.Models
         public int KampirnoMestoId { get; set; }
         public string Naziv { get; set; }
         public string Velikost { get; set; }
+        public BitArray Isactive { get; set; }
         public DateTime? CreatedAt { get; set; }
         public DateTime? UpdatedAt { get; set; }
         public int Avtokamp { get; set; }

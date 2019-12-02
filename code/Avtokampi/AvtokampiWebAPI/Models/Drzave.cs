@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections;
 
 namespace AvtokampiWebAPI.Models
 {
@@ -12,6 +13,7 @@ namespace AvtokampiWebAPI.Models
 
         public int DrzavaId { get; set; }
         public string Naziv { get; set; }
+        public BitArray Isactive { get; set; }
 
         public virtual ICollection<Regije> Regije { get; set; }
     }
