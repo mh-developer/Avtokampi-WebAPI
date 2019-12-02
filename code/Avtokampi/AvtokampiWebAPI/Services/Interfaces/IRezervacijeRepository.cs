@@ -11,7 +11,7 @@ namespace AvtokampiWebAPI.Services.Interfaces
 
         bool CreateRezervacija(Rezervacije rez);
 
-        Rezervacije UpdateRezervacija(Rezervacije rez);
+        Rezervacije UpdateRezervacija(Rezervacije rez, int rez_id);
 
         bool RemoveRezervacija(int rez_id);
     }

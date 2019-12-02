@@ -7,7 +7,7 @@ namespace AvtokampiWebAPI.Services
 {
     public class KampirnaMestaRepository : IKampirnaMestaRepository
     {
-        public bool CreateKampirnoMesto(KampirnaMesta kamp_mesto)
+        public bool CreateKampirnoMesto(KampirnaMesta kamp_mesto, int kamp_id)
         {
             throw new NotImplementedException();
         }
@@ -22,12 +22,12 @@ namespace AvtokampiWebAPI.Services
             throw new NotImplementedException();
         }
 
-        public bool RemoveKampMesto(int kamp_mesto_id)
+        public bool RemoveKampMesto(int kamp_id, int kamp_mesto_id)
         {
             throw new NotImplementedException();
         }
 
-        public KampirnaMesta UpdateKampirnoMesto(KampirnaMesta kamp_mesto)
+        public KampirnaMesta UpdateKampirnoMesto(KampirnaMesta kamp_mesto, int kamp_id, int kamp_mesto_id)
         {
             throw new NotImplementedException();
         }

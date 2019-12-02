@@ -7,7 +7,7 @@ namespace AvtokampiWebAPI.Services
 {
     public class StoritveKampaRepository : IStoritveKampaRepository
     {
-        public bool CreateStoritev(Storitve storitev)
+        public bool CreateStoritev(Storitve storitev, int kamp_id)
         {
             throw new NotImplementedException();
         }
@@ -32,7 +32,7 @@ namespace AvtokampiWebAPI.Services
             throw new NotImplementedException();
         }
 
-        public Storitve UpdateStoritev(Storitve storitev)
+        public Storitve UpdateStoritev(Storitve storitev, int storitev_id)
         {
             throw new NotImplementedException();
         }

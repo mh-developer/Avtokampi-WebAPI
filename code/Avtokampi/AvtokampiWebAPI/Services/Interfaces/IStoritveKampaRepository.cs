@@ -11,9 +11,9 @@ namespace AvtokampiWebAPI.Services.Interfaces
 
         Storitve GetStoritevByID(int storitev_id);
 
-        bool CreateStoritev(Storitve storitev);
+        bool CreateStoritev(Storitve storitev, int kamp_id);
 
-        Storitve UpdateStoritev(Storitve storitev);
+        Storitve UpdateStoritev(Storitve storitev, int storitev_id);
 
         bool RemoveStoritev(int storitev_id);
     }

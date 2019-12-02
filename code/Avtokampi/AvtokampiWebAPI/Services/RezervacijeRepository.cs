@@ -27,7 +27,7 @@ namespace AvtokampiWebAPI.Services
             throw new NotImplementedException();
         }
 
-        public Rezervacije UpdateRezervacija(Rezervacije rez)
+        public Rezervacije UpdateRezervacija(Rezervacije rez, int rez_id)
         {
             throw new NotImplementedException();
         }

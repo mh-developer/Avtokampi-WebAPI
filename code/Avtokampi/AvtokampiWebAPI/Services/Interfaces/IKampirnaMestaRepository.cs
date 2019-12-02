@@ -9,10 +9,10 @@ namespace AvtokampiWebAPI.Services.Interfaces
 
         KampirnaMesta GetKampirnoMestoByID(int kamp_mesto_id);
 
-        bool CreateKampirnoMesto(KampirnaMesta kamp_mesto);
+        bool CreateKampirnoMesto(KampirnaMesta kamp_mesto, int kamp_id);
 
-        KampirnaMesta UpdateKampirnoMesto(KampirnaMesta kamp_mesto);
+        KampirnaMesta UpdateKampirnoMesto(KampirnaMesta kamp_mesto, int kamp_id, int kamp_mesto_id);
 
-        bool RemoveKampMesto(int kamp_mesto_id);
+        bool RemoveKampMesto(int kamp_id, int kamp_mesto_id);
     }
 }
