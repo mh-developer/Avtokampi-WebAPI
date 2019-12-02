@@ -71,13 +71,13 @@ namespace AvtokampiWebAPI
 
 
             // Repository services
+            services.AddScoped<IUporabnikiRepository, UporabnikiRepository>();
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddScoped<IAuthRepository, AuthRepository>();
             services.AddScoped<IAvtokampiRepository, AvtokampiRepository>();
             services.AddScoped<IKampirnaMestaRepository, KampirnaMestaRepository>();
             services.AddScoped<IRezervacijeRepository, RezervacijeRepository>();
             services.AddScoped<IStoritveKampaRepository, StoritveKampaRepository>();
-            services.AddScoped<IUporabnikiRepository, UporabnikiRepository>();
 
 
 

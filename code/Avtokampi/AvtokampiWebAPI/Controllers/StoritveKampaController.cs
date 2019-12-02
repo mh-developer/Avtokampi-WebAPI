@@ -69,7 +69,7 @@ namespace AvtokampiWebAPI.Controllers
         ///
         /// </remarks>
         /// <returns>Objekt StoritveKampa</returns>
-        /// <param name="kamp_id">Identifikator avtokampa</param>
+        /// <param name="kamp_mesto_id">Identifikator kampirnega mesta</param>
         /// <response code="200">Seznam storitev kampirnega mesta</response>
         /// <response code="400">Bad request error massage</response>
         /// <response code="404">Not found error massage</response>

@@ -10,7 +10,6 @@ namespace AvtokampiWebAPI.Controllers
     [Produces("application/json")]
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
     public class UporabnikiController : ControllerBase
     {
         private readonly IUporabnikiRepository _uporabnikiService;
@@ -63,7 +62,7 @@ namespace AvtokampiWebAPI.Controllers
         }
 
         /// <summary>
-        ///     Podatki o uporabniku
+        ///     Podatki o uporabniku po uporabniškem imenu
         /// </summary>
         /// <remarks>
         /// Primer zahtevka:
@@ -76,7 +75,7 @@ namespace AvtokampiWebAPI.Controllers
         /// <response code="200">Uporabnik</response>
         /// <response code="400">Bad request error massage</response>
         /// <response code="404">Not found error massage</response>
-        [HttpGet("{user_id}")]
+        [HttpGet("{username}")]
         [ProducesResponseType(200)]
         [ProducesResponseType(404)]
         [ProducesResponseType(400)]

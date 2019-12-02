@@ -14,12 +14,10 @@ namespace AvtokampiWebAPI.Services
     public class AuthRepository : IAuthRepository
     {
         private readonly TokenManagement _tokenManagement;
-        private readonly IUporabnikiRepository _uporabnik;
 
-        public AuthRepository(IOptions<TokenManagement> tokenManagement, UporabnikiRepository uporabnik)
+        public AuthRepository(IOptions<TokenManagement> tokenManagement)
         {
             _tokenManagement = tokenManagement.Value;
-            _uporabnik = uporabnik;
         }
 
         public bool IsAuthenticated(TokenModel request, out string token)
@@ -28,7 +26,7 @@ namespace AvtokampiWebAPI.Services
 
             if (!IsValidUser(request.Username, request.Password)) return false;
 
-            var zaposleni = _uporabnik.GetUporabnikByUsername(request.Username);
+            string zaposleni = null;
             if (zaposleni == null) return false;
 
             var claim = new List<Claim>()
