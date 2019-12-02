@@ -22,6 +22,16 @@ namespace AvtokampiWebAPI.Services
             throw new NotImplementedException();
         }
 
+        public List<StatusRezervacije> GetStatusRezervacije()
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<VrstaKampiranja> GetVrstaKmapiranja()
+        {
+            throw new NotImplementedException();
+        }
+
         public bool RemoveRezervacija(int rez_id)
         {
             throw new NotImplementedException();

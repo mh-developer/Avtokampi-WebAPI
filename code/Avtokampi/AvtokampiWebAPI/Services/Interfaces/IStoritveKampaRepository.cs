@@ -16,5 +16,7 @@ namespace AvtokampiWebAPI.Services.Interfaces
         Storitve UpdateStoritev(Storitve storitev, int storitev_id);
 
         bool RemoveStoritev(int storitev_id);
+
+        List<KategorijeStoritev> GetKategorijeStoritev();
     }
 }

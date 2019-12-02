@@ -7,5 +7,7 @@ namespace AvtokampiWebAPI.Services.Interfaces
         bool IsAuthenticated(TokenModel request, out string token);
 
         bool IsValidUser(string username, string password);
+
+        bool IsRegister(Uporabniki user);
     }
 }

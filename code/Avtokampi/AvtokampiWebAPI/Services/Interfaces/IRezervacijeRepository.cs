@@ -14,5 +14,9 @@ namespace AvtokampiWebAPI.Services.Interfaces
         Rezervacije UpdateRezervacija(Rezervacije rez, int rez_id);
 
         bool RemoveRezervacija(int rez_id);
+
+        List<VrstaKampiranja> GetVrstaKmapiranja();
+
+        List<StatusRezervacije> GetStatusRezervacije();
     }
 }

@@ -1,4 +1,5 @@
 ﻿using AvtokampiWebAPI.Models;
+using System.Collections.Generic;
 
 namespace AvtokampiWebAPI.Services.Interfaces
 {
@@ -8,12 +9,19 @@ namespace AvtokampiWebAPI.Services.Interfaces
 
         Uporabniki GetUporabnikByUsername(string username);
 
-        bool RegisterUporabnik(Uporabniki uporabnik);
-
         Uporabniki UpdateUporabnik(Uporabniki uporabnik, int uporabnik_id);
 
         bool RemoveUporabnik(int uporabnik_id);
 
+        List<Mnenja> GetMnenjeByUporabnik(int uporabnik_id);
+
+        Mnenja GetMnenje(int mnenje_id);
+
+        bool CreateMnenje(Mnenja mnenje);
+
+        Mnenja UpdateMnenje(Mnenja mnenje, int mnenje_id);
+
+        bool RemoveMnenje(int mnenje_id);
 
         bool UporabnikExists(string username = null, int? up_id = null);
     }

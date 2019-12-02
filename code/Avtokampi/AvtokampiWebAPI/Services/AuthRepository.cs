@@ -49,6 +49,11 @@ namespace AvtokampiWebAPI.Services
             return true;
         }
 
+        public bool IsRegister(Uporabniki user)
+        {
+            throw new NotImplementedException();
+        }
+
         public bool IsValidUser(string username, string password)
         {
             using (var _db = new avtokampiContext())

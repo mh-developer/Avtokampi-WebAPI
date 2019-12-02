@@ -22,6 +22,11 @@ namespace AvtokampiWebAPI.Services
             throw new NotImplementedException();
         }
 
+        public List<Kategorije> GetKategorijeKampirnihMest()
+        {
+            throw new NotImplementedException();
+        }
+
         public bool RemoveKampMesto(int kamp_id, int kamp_mesto_id)
         {
             throw new NotImplementedException();

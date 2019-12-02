@@ -12,6 +12,11 @@ namespace AvtokampiWebAPI.Services
             throw new NotImplementedException();
         }
 
+        public List<KategorijeStoritev> GetKategorijeStoritev()
+        {
+            throw new NotImplementedException();
+        }
+
         public Storitve GetStoritevByID(int storitev_id)
         {
             throw new NotImplementedException();

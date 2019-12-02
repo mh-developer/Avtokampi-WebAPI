@@ -14,5 +14,7 @@ namespace AvtokampiWebAPI.Services.Interfaces
         KampirnaMesta UpdateKampirnoMesto(KampirnaMesta kamp_mesto, int kamp_id, int kamp_mesto_id);
 
         bool RemoveKampMesto(int kamp_id, int kamp_mesto_id);
+
+        List<Kategorije> GetKategorijeKampirnihMest();
     }
 }
