@@ -14,7 +14,7 @@ jobs:
       with:
         dotnet-version: 3.0.100
     - name: Build with dotnet
-      run: dotnet build code/Avtokampi --configuration Release
+      run: dotnet build code/Avtokampi --configuration Release -o /home/dotnetRelease
     - name: Copy files via ssh password
       uses: appleboy/scp-action@master
       with:
@@ -22,5 +22,5 @@ jobs:
         username: ${{ secrets.USERNAME }}
         password: ${{ secrets.PASSWORD }}
         port: ${{ secrets.PORT }}
-        source: "/home/runner/work/Avtokampi-WebAPI/Avtokampi-WebAPI/code/Avtokampi"
+        source: "/home/dotnetRelease/"
         target: "/home/user/testgithub/"
