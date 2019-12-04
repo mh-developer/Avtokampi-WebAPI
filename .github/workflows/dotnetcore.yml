@@ -14,7 +14,7 @@ jobs:
       with:
         dotnet-version: 3.0.100
     - name: Build with dotnet
-      run: dotnet build --configuration Release -o /var/www/api.kampiraj.ga/html
+      run: dotnet build --configuration Release
     - name: Copy files via ssh password
       uses: appleboy/scp-action@master
       with:
