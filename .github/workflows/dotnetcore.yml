@@ -22,5 +22,5 @@ jobs:
         username: ${{ secrets.USERNAME }}
         password: ${{ secrets.PASSWORD }}
         port: ${{ secrets.PORT }}
-        source: "code/Avtokampi"
+        source: "/home/runner/work/Avtokampi-WebAPI/Avtokampi-WebAPI/code/Avtokampi"
         target: "/home/user/testgithub"
