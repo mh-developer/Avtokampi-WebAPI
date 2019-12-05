@@ -9,6 +9,7 @@ jobs:
 
     steps:
     - uses: actions/checkout@v1
+
     - name: Setup .NET Core
       uses: actions/setup-dotnet@v1
       with:
@@ -24,3 +25,19 @@ jobs:
         port: ${{ secrets.PORT }}
         source: "/home/runner/work/Avtokampi-WebAPI/Avtokampi-WebAPI/code/Avtokampi/AvtokampiWebAPI/bin/Release/netcoreapp3.0/"
         target: "/home/user/testgithub/"
+    - name: Kill the existing dotnet API process
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.HOST }}
+        username: ${{ secrets.USERNAME }}
+        password: ${{ secrets.PASSWORD }}
+        port: ${{ secrets.PORT }}
+        script: kill $(ps aux | grep 'dotnet AvtokampiWebAPI.dll' | awk '{print $2}')
+    - name: Start the API by executing dotnet command remotely
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.HOST }}
+        username: ${{ secrets.USERNAME }}
+        password: ${{ secrets.PASSWORD }}
+        port: ${{ secrets.PORT }}
+        script: dotnet /home/user/testgithub/AvtokampiWebAPI.dll
