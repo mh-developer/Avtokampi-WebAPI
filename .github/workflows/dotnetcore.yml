@@ -21,7 +21,7 @@ jobs:
         username: ${{ secrets.USERNAME }}
         password: ${{ secrets.PASSWORD }}
         port: ${{ secrets.PORT }}
-        script: rm -rf /home/user/testgithub/*
+        script: pkill dotnet && rm -rf /home/user/testgithub/*
     - name: Build with dotnet
       run: dotnet build code/Avtokampi --configuration Release
     - name: Copy files via ssh password
@@ -40,4 +40,4 @@ jobs:
         username: ${{ secrets.USERNAME }}
         password: ${{ secrets.PASSWORD }}
         port: ${{ secrets.PORT }}
-        script: dotnet /home/user/testgithub/github/workspace/code/Avtokampi/AvtokampiWebAPI/bin/Release/netcoreapp3.0/AvtokampiWebAPI.dll
+        script: dotnet /var/www/api.kampiraj.ga/html/AvtokampiWebAPI.dll
