@@ -41,5 +41,5 @@ jobs:
         password: ${{ secrets.PASSWORD }}
         port: ${{ secrets.PORT }}
         script: |
-          pkill '/home/user/testgithub/github/workspace/code/Avtokampi/AvtokampiWebAPI/bin/Release/netcoreapp3.0/AvtokampiWebAPI.dll'
+          pkill dotnet
           dotnet /home/user/testgithub/github/workspace/code/Avtokampi/AvtokampiWebAPI/bin/Release/netcoreapp3.0/AvtokampiWebAPI.dll
