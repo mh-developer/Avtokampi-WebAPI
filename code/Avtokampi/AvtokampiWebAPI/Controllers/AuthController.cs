@@ -56,5 +56,40 @@ namespace AvtokampiWebAPI.Controllers
                 return BadRequest(/*new ErrorHandlerModel(e.Message, HttpStatusCode.BadRequest)*/);
             }
         }
+
+        /// <summary>
+        ///     Registracija uporabnika
+        /// </summary>
+        /// <returns>Boolean value</returns>
+        /// <response code="201">Successfully rigister user</response>
+        /// <response code="400">Bad request error massage</response>
+        /// <response code="401">Unauthorized</response>
+        [AllowAnonymous]
+        [HttpPost("register")]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(401)]
+        public IActionResult RequestRegister([FromBody] Uporabniki user)
+        {
+            try
+            {
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(ModelState);
+                }
+
+                var result = _authService.IsRegister(user);
+                if (result == null)
+                {
+                    return BadRequest();
+                }
+
+                return Created("/auth/login", result);
+            }
+            catch (Exception)
+            {
+                return BadRequest(/*new ErrorHandlerModel(e.Message, HttpStatusCode.BadRequest)*/);
+            }
+        }
     }
 }

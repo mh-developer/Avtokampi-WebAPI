@@ -228,5 +228,40 @@ namespace AvtokampiWebAPI.Controllers
                 return BadRequest(/*new ErrorHandlerModel(e.Message, HttpStatusCode.BadRequest)*/);
             }
         }
+
+        /// <summary>
+        ///     Seznam kategorij kampirnih mest
+        /// </summary>
+        /// <remarks>
+        /// Primer zahtevka:
+        ///
+        ///     GET api/kampirnamesta/kategorije
+        ///
+        /// </remarks>
+        /// <returns>Seznam vseh kategorij kampirnih mest</returns>
+        /// <response code="200">Seznam kategorij</response>
+        /// <response code="400">Bad request error massage</response>
+        /// <response code="404">Not found error massage</response>
+        [HttpGet("kategorije")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(404)]
+        [ProducesResponseType(400)]
+        public IActionResult GetKategorijeKampirnihMest()
+        {
+            try
+            {
+                var result = _kampirnaMestaService.GetKategorijeKampirnihMest();
+                if (result == null)
+                {
+                    return NotFound(/*new ErrorHandlerModel($"Zaposleni z ID { id }, ne obstaja.", HttpStatusCode.NotFound)*/);
+                }
+                return Ok(result);
+            }
+            catch (Exception e)
+            {
+                _logger.LogError("GET GetKategorijeKampirnihMest Unhandled exception ...", e);
+                return BadRequest(/*new ErrorHandlerModel(e.Message, HttpStatusCode.BadRequest)*/);
+            }
+        }
     }
 }

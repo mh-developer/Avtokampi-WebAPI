@@ -225,5 +225,75 @@ namespace AvtokampiWebAPI.Controllers
                 return BadRequest(/*new ErrorHandlerModel(e.Message, HttpStatusCode.BadRequest)*/);
             }
         }
+
+        /// <summary>
+        ///     Seznam vrst kampiranja za rezervacije
+        /// </summary>
+        /// <remarks>
+        /// Primer zahtevka:
+        ///
+        ///     GET api/rezervacije/vrsta_kampiranja
+        ///
+        /// </remarks>
+        /// <returns>Seznam vrst kampiranja</returns>
+        /// <response code="200">Seznam vrst kampiranja za rezervacije</response>
+        /// <response code="400">Bad request error massage</response>
+        /// <response code="404">Not found error massage</response>
+        [HttpGet("vrsta_kampiranja")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(404)]
+        [ProducesResponseType(400)]
+        public IActionResult GetVrstaKmapiranja()
+        {
+            try
+            {
+                var result = _rezervacijeService.GetVrstaKmapiranja();
+                if (result == null)
+                {
+                    return NotFound(/*new ErrorHandlerModel($"Zaposleni z ID { id }, ne obstaja.", HttpStatusCode.NotFound)*/);
+                }
+                return Ok(result);
+            }
+            catch (Exception e)
+            {
+                _logger.LogError("GET GetVrstaKmapiranja Unhandled exception ...", e);
+                return BadRequest(/*new ErrorHandlerModel(e.Message, HttpStatusCode.BadRequest)*/);
+            }
+        }
+
+        /// <summary>
+        ///     Seznam statusov za rezervacije
+        /// </summary>
+        /// <remarks>
+        /// Primer zahtevka:
+        ///
+        ///     GET api/rezervacije/status
+        ///
+        /// </remarks>
+        /// <returns>Seznam statusov</returns>
+        /// <response code="200">Seznam statusov za rezervacije</response>
+        /// <response code="400">Bad request error massage</response>
+        /// <response code="404">Not found error massage</response>
+        [HttpGet("status")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(404)]
+        [ProducesResponseType(400)]
+        public IActionResult GetStatusRezervacije()
+        {
+            try
+            {
+                var result = _rezervacijeService.GetStatusRezervacije();
+                if (result == null)
+                {
+                    return NotFound(/*new ErrorHandlerModel($"Zaposleni z ID { id }, ne obstaja.", HttpStatusCode.NotFound)*/);
+                }
+                return Ok(result);
+            }
+            catch (Exception e)
+            {
+                _logger.LogError("GET GetStatusRezervacije Unhandled exception ...", e);
+                return BadRequest(/*new ErrorHandlerModel(e.Message, HttpStatusCode.BadRequest)*/);
+            }
+        }
     }
 }

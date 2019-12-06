@@ -157,7 +157,7 @@ namespace AvtokampiWebAPI.Controllers
         /// <response code="201">If successfully created: true or false</response>
         /// <response code="400">Bad request error massage</response>
         /// <response code="404">Not found error massage</response>
-        [HttpPost("kamp_id")]
+        [HttpPost("{kamp_id}")]
         [ProducesResponseType(201)]
         [ProducesResponseType(404)]
         [ProducesResponseType(400)]
@@ -263,6 +263,41 @@ namespace AvtokampiWebAPI.Controllers
             catch (Exception e)
             {
                 _logger.LogError("DELETE storitve Unhandled exception ...", e);
+                return BadRequest(/*new ErrorHandlerModel(e.Message, HttpStatusCode.BadRequest)*/);
+            }
+        }
+
+        /// <summary>
+        ///     Seznam kategorij storitev
+        /// </summary>
+        /// <remarks>
+        /// Primer zahtevka:
+        ///
+        ///     GET api/storitvekampa/kategorije
+        ///
+        /// </remarks>
+        /// <returns>Seznam kategorij storitev</returns>
+        /// <response code="200">Seznam kategorij storitev</response>
+        /// <response code="400">Bad request error massage</response>
+        /// <response code="404">Not found error massage</response>
+        [HttpGet("kategorije")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(404)]
+        [ProducesResponseType(400)]
+        public IActionResult GetKategorijeStoritev()
+        {
+            try
+            {
+                var result = _storitveKampaService.GetKategorijeStoritev();
+                if (result == null)
+                {
+                    return NotFound(/*new ErrorHandlerModel($"Zaposleni z ID { id }, ne obstaja.", HttpStatusCode.NotFound)*/);
+                }
+                return Ok(result);
+            }
+            catch (Exception e)
+            {
+                _logger.LogError("GET GetKategorijeStoritev Unhandled exception ...", e);
                 return BadRequest(/*new ErrorHandlerModel(e.Message, HttpStatusCode.BadRequest)*/);
             }
         }
