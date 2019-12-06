@@ -1,0 +1,43 @@
+name: CI/CD configuration for API
+
+on: [push]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v1
+
+    - name: Setup .NET Core
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 3.0.100
+    - name: Remove old API files
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.HOST }}
+        username: ${{ secrets.USERNAME }}
+        password: ${{ secrets.PASSWORD }}
+        port: ${{ secrets.PORT }}
+        script: rm -rf ~/testgithub/*
+    - name: Build with dotnet
+      run: dotnet build code/Avtokampi --configuration Release
+    - name: Copy files via ssh password
+      uses: appleboy/scp-action@master
+      with:
+        host: ${{ secrets.HOST }}
+        username: ${{ secrets.USERNAME }}
+        password: ${{ secrets.PASSWORD }}
+        port: ${{ secrets.PORT }}
+        source: "/home/runner/work/Avtokampi-WebAPI/Avtokampi-WebAPI/code/Avtokampi/AvtokampiWebAPI/bin/Release/netcoreapp3.0/"
+        target: "~/testgithub/"
+    - name: Kill an existing API process and start the API by executing dotnet command remotely
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.HOST }}
+        username: ${{ secrets.USERNAME }}
+        password: ${{ secrets.PASSWORD }}
+        port: ${{ secrets.PORT }}
+        script: screen -d -m -S SERVER bash -c 'pkill dotnet && cd ~/testgithub/github/workspace/code/Avtokampi/AvtokampiWebAPI/bin/Release/netcoreapp3.0/ && dotnet AvtokampiWebAPI.dll || cd ~/testgithub/github/workspace/code/Avtokampi/AvtokampiWebAPI/bin/Release/netcoreapp3.0/ && dotnet AvtokampiWebAPI.dll'
