@@ -21,7 +21,7 @@ jobs:
         username: ${{ secrets.USERNAME }}
         password: ${{ secrets.PASSWORD }}
         port: ${{ secrets.PORT }}
-        script: rm -rf /home/user/testgithub/*
+        script: rm -rf ~/testgithub/*
     - name: Build with dotnet
       run: dotnet build code/Avtokampi --configuration Release
     - name: Copy files via ssh password
@@ -32,7 +32,7 @@ jobs:
         password: ${{ secrets.PASSWORD }}
         port: ${{ secrets.PORT }}
         source: "/home/runner/work/Avtokampi-WebAPI/Avtokampi-WebAPI/code/Avtokampi/AvtokampiWebAPI/bin/Release/netcoreapp3.0/"
-        target: "/home/user/testgithub/"
+        target: "~/testgithub/"
     - name: Kill an existing API process and start the API by executing dotnet command remotely
       uses: appleboy/ssh-action@master
       with:
@@ -40,4 +40,4 @@ jobs:
         username: ${{ secrets.USERNAME }}
         password: ${{ secrets.PASSWORD }}
         port: ${{ secrets.PORT }}
-        script: screen -d -m -S SERVER bash -c 'pkill dotnet && cd /home/user/testgithub/github/workspace/code/Avtokampi/AvtokampiWebAPI/bin/Release/netcoreapp3.0/ && dotnet AvtokampiWebAPI.dll || cd /home/user/testgithub/github/workspace/code/Avtokampi/AvtokampiWebAPI/bin/Release/netcoreapp3.0/ && dotnet AvtokampiWebAPI.dll'
+        script: screen -d -m -S SERVER bash -c 'pkill dotnet && cd ~/testgithub/github/workspace/code/Avtokampi/AvtokampiWebAPI/bin/Release/netcoreapp3.0/ && dotnet AvtokampiWebAPI.dll || cd ~/testgithub/github/workspace/code/Avtokampi/AvtokampiWebAPI/bin/Release/netcoreapp3.0/ && dotnet AvtokampiWebAPI.dll'
