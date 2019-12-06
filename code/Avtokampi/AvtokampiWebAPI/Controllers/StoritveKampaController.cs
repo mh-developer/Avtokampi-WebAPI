@@ -157,7 +157,7 @@ namespace AvtokampiWebAPI.Controllers
         /// <response code="201">If successfully created: true or false</response>
         /// <response code="400">Bad request error massage</response>
         /// <response code="404">Not found error massage</response>
-        [HttpPost("kamp_id")]
+        [HttpPost("{kamp_id}")]
         [ProducesResponseType(201)]
         [ProducesResponseType(404)]
         [ProducesResponseType(400)]
@@ -170,7 +170,7 @@ namespace AvtokampiWebAPI.Controllers
                 {
                     return NotFound(/*new ErrorHandlerModel($"Zaposleni z ID { id }, ne obstaja.", HttpStatusCode.NotFound)*/);
                 }
-                return Created("/storitvekampa/id", result);
+                return Created("/storitvekampa/ID", result);
             }
             catch (ArgumentException)
             {
