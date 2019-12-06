@@ -40,4 +40,4 @@ jobs:
         username: ${{ secrets.USERNAME }}
         password: ${{ secrets.PASSWORD }}
         port: ${{ secrets.PORT }}
-        script: cd /home/user/testgithub/github/workspace/code/Avtokampi/AvtokampiWebAPI/bin/Release/netcoreapp3.0/ && dotnet AvtokampiWebAPI.dll &
+        script: screen -d -m -S SERVER bash -c 'cd /home/user/testgithub/github/workspace/code/Avtokampi/AvtokampiWebAPI/bin/Release/netcoreapp3.0/ && dotnet AvtokampiWebAPI.dll'
