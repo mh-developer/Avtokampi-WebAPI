@@ -21,7 +21,7 @@ jobs:
         username: ${{ secrets.USERNAME }}
         password: ${{ secrets.PASSWORD }}
         port: ${{ secrets.PORT }}
-        script: pkill dotnet && rm -rf /home/user/testgithub/*
+        script: rm -rf /home/user/testgithub/*
     - name: Build with dotnet
       run: dotnet build code/Avtokampi --configuration Release
     - name: Copy files via ssh password
