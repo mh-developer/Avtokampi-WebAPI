@@ -1,0 +1,14 @@
+version: "3.7"
+services:
+    postgres_avtokampi:
+        image: postgres
+        restart: always
+        environment:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: avtokampi
+        ports:
+          - "5432:5432"
+        volumes:
+          - /home/user/postgres/postgresql.conf:/etc/postgresql.conf
+          - /home/user/postgres/data/data.sql:/docker-entrypoint-initdb.d/data.sql
