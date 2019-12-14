@@ -15,9 +15,11 @@ namespace AvtokampiWebAPI.Services.Interfaces
 
         List<Mnenja> GetMnenjeByUporabnik(int uporabnik_id);
 
+        List<Mnenja> GetMnenjeByAvtokamp(int kamp_id);
+
         Mnenja GetMnenje(int mnenje_id);
 
-        bool CreateMnenje(Mnenja mnenje);
+        bool CreateMnenje(Mnenja mnenje, int kamp_id);
 
         Mnenja UpdateMnenje(Mnenja mnenje, int mnenje_id);
 
