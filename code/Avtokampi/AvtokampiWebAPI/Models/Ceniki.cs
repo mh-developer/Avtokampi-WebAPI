@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections;
 
 namespace AvtokampiWebAPI.Models
 {
@@ -18,7 +17,7 @@ namespace AvtokampiWebAPI.Models
         public DateTime? CreatedAt { get; set; }
         public DateTime? UpdatedAt { get; set; }
         public int Avtokamp { get; set; }
-        public BitArray Isactive { get; set; }
+        public bool? Isactive { get; set; }
 
         public virtual Avtokampi AvtokampNavigation { get; set; }
         public virtual ICollection<SoritveCenikov> SoritveCenikov { get; set; }

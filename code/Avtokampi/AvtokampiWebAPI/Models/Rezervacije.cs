@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections;
 
 namespace AvtokampiWebAPI.Models
 {
@@ -16,7 +15,7 @@ namespace AvtokampiWebAPI.Models
         public int KampirnoMesto { get; set; }
         public int VrstaKampiranja { get; set; }
         public int StatusRezervacije { get; set; }
-        public BitArray Isactive { get; set; }
+        public bool? Isactive { get; set; }
 
         public virtual Avtokampi AvtokampNavigation { get; set; }
         public virtual KampirnaMesta KampirnoMestoNavigation { get; set; }

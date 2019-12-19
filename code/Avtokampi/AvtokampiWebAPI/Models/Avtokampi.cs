@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections;
 
 namespace AvtokampiWebAPI.Models
 {
@@ -24,7 +23,7 @@ namespace AvtokampiWebAPI.Models
         public string NazivLokacije { get; set; }
         public string KoordinataX { get; set; }
         public string KoordinataY { get; set; }
-        public BitArray Isactive { get; set; }
+        public bool? Isactive { get; set; }
         public DateTime? CreatedAt { get; set; }
         public DateTime? UpdatedAt { get; set; }
         public int Regija { get; set; }

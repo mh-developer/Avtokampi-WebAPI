@@ -37,8 +37,7 @@ namespace AvtokampiWebAPI.Models
         {
             if (!optionsBuilder.IsConfigured)
             {
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
-                optionsBuilder.UseNpgsql("User ID =postgres;Password=disibio91;Server=resources.kampiraj.ga;Port=5432;Database=avtokampi;Integrated Security=true;Pooling=true;");
+                optionsBuilder.UseNpgsql("name=Avtokampi");
             }
         }
 
@@ -62,9 +61,7 @@ namespace AvtokampiWebAPI.Models
                     .HasColumnName("created_at")
                     .HasColumnType("timestamp(0) without time zone");
 
-                entity.Property(e => e.Isactive)
-                    .HasColumnName("isactive")
-                    .HasColumnType("bit(1)");
+                entity.Property(e => e.Isactive).HasColumnName("isactive");
 
                 entity.Property(e => e.KoordinataX)
                     .HasColumnName("koordinata_x")
@@ -132,9 +129,7 @@ namespace AvtokampiWebAPI.Models
                     .HasColumnName("created_at")
                     .HasColumnType("timestamp(0) without time zone");
 
-                entity.Property(e => e.Isactive)
-                    .HasColumnName("isactive")
-                    .HasColumnType("bit(1)");
+                entity.Property(e => e.Isactive).HasColumnName("isactive");
 
                 entity.Property(e => e.Naziv)
                     .HasColumnName("naziv")
@@ -162,9 +157,7 @@ namespace AvtokampiWebAPI.Models
                     .HasColumnName("drzava_id")
                     .HasDefaultValueSql("nextval('drzave_seq'::regclass)");
 
-                entity.Property(e => e.Isactive)
-                    .HasColumnName("isactive")
-                    .HasColumnType("bit(1)");
+                entity.Property(e => e.Isactive).HasColumnName("isactive");
 
                 entity.Property(e => e.Naziv)
                     .HasColumnName("naziv")
@@ -194,9 +187,7 @@ namespace AvtokampiWebAPI.Models
                     .HasColumnName("created_at")
                     .HasColumnType("timestamp(0) without time zone");
 
-                entity.Property(e => e.Isactive)
-                    .HasColumnName("isactive")
-                    .HasColumnType("bit(1)");
+                entity.Property(e => e.Isactive).HasColumnName("isactive");
 
                 entity.Property(e => e.Kategorija).HasColumnName("kategorija");
 
@@ -240,9 +231,7 @@ namespace AvtokampiWebAPI.Models
                     .HasColumnName("created_at")
                     .HasColumnType("timestamp(0) without time zone");
 
-                entity.Property(e => e.Isactive)
-                    .HasColumnName("isactive")
-                    .HasColumnType("bit(1)");
+                entity.Property(e => e.Isactive).HasColumnName("isactive");
 
                 entity.Property(e => e.Naziv)
                     .HasColumnName("naziv")
@@ -264,9 +253,7 @@ namespace AvtokampiWebAPI.Models
                     .HasColumnName("kategorija_storitve_id")
                     .HasDefaultValueSql("nextval('kategorije_storitev_seq'::regclass)");
 
-                entity.Property(e => e.Isactive)
-                    .HasColumnName("isactive")
-                    .HasColumnType("bit(1)");
+                entity.Property(e => e.Isactive).HasColumnName("isactive");
 
                 entity.Property(e => e.Naziv)
                     .HasColumnName("naziv")
@@ -296,9 +283,7 @@ namespace AvtokampiWebAPI.Models
                     .HasColumnName("created_at")
                     .HasColumnType("timestamp(0) without time zone");
 
-                entity.Property(e => e.Isactive)
-                    .HasColumnName("isactive")
-                    .HasColumnType("bit(1)");
+                entity.Property(e => e.Isactive).HasColumnName("isactive");
 
                 entity.Property(e => e.Mnenje)
                     .HasColumnName("mnenje")
@@ -336,9 +321,7 @@ namespace AvtokampiWebAPI.Models
                     .HasColumnName("pravica_id")
                     .HasDefaultValueSql("nextval('pravice_seq'::regclass)");
 
-                entity.Property(e => e.Isactive)
-                    .HasColumnName("isactive")
-                    .HasColumnType("bit(1)");
+                entity.Property(e => e.Isactive).HasColumnName("isactive");
 
                 entity.Property(e => e.Naziv)
                     .HasColumnName("naziv")
@@ -365,9 +348,7 @@ namespace AvtokampiWebAPI.Models
 
                 entity.Property(e => e.Drzava).HasColumnName("drzava");
 
-                entity.Property(e => e.Isactive)
-                    .HasColumnName("isactive")
-                    .HasColumnType("bit(1)");
+                entity.Property(e => e.Isactive).HasColumnName("isactive");
 
                 entity.Property(e => e.Naziv)
                     .HasColumnName("naziv")
@@ -412,9 +393,7 @@ namespace AvtokampiWebAPI.Models
                     .HasColumnName("created_at")
                     .HasColumnType("timestamp(0) without time zone");
 
-                entity.Property(e => e.Isactive)
-                    .HasColumnName("isactive")
-                    .HasColumnType("bit(1)");
+                entity.Property(e => e.Isactive).HasColumnName("isactive");
 
                 entity.Property(e => e.KampirnoMesto).HasColumnName("kampirno_mesto");
 
@@ -487,9 +466,7 @@ namespace AvtokampiWebAPI.Models
                     .HasColumnName("created_at")
                     .HasColumnType("timestamp(0) without time zone");
 
-                entity.Property(e => e.Isactive)
-                    .HasColumnName("isactive")
-                    .HasColumnType("bit(1)");
+                entity.Property(e => e.Isactive).HasColumnName("isactive");
 
                 entity.Property(e => e.Slika).HasColumnName("slika");
 
@@ -525,9 +502,7 @@ namespace AvtokampiWebAPI.Models
 
                 entity.Property(e => e.CenikiCenikId).HasColumnName("ceniki_cenik_id");
 
-                entity.Property(e => e.Isactive)
-                    .HasColumnName("isactive")
-                    .HasColumnType("bit(1)");
+                entity.Property(e => e.Isactive).HasColumnName("isactive");
 
                 entity.Property(e => e.StoritveStoritevId).HasColumnName("storitve_storitev_id");
 
@@ -558,9 +533,7 @@ namespace AvtokampiWebAPI.Models
                     .HasColumnName("status_rezervacije_id")
                     .HasDefaultValueSql("nextval('status_rezervacije_seq'::regclass)");
 
-                entity.Property(e => e.Isactive)
-                    .HasColumnName("isactive")
-                    .HasColumnType("bit(1)");
+                entity.Property(e => e.Isactive).HasColumnName("isactive");
 
                 entity.Property(e => e.Naziv)
                     .HasColumnName("naziv")
@@ -586,9 +559,7 @@ namespace AvtokampiWebAPI.Models
 
                 entity.Property(e => e.Cenik).HasColumnName("cenik");
 
-                entity.Property(e => e.Isactive)
-                    .HasColumnName("isactive")
-                    .HasColumnType("bit(1)");
+                entity.Property(e => e.Isactive).HasColumnName("isactive");
 
                 entity.Property(e => e.KategorijaStoritve).HasColumnName("kategorija_storitve");
 
@@ -623,9 +594,7 @@ namespace AvtokampiWebAPI.Models
                     .HasColumnName("storitve_kampirnih_mest_id")
                     .HasDefaultValueSql("nextval('storitve_kampirnih_mest_seq'::regclass)");
 
-                entity.Property(e => e.Isactive)
-                    .HasColumnName("isactive")
-                    .HasColumnType("bit(1)");
+                entity.Property(e => e.Isactive).HasColumnName("isactive");
 
                 entity.Property(e => e.KampirnoMesto).HasColumnName("kampirno_mesto");
 
@@ -674,9 +643,7 @@ namespace AvtokampiWebAPI.Models
                     .HasColumnName("ime")
                     .HasMaxLength(45);
 
-                entity.Property(e => e.Isactive)
-                    .HasColumnName("isactive")
-                    .HasColumnType("bit(1)");
+                entity.Property(e => e.Isactive).HasColumnName("isactive");
 
                 entity.Property(e => e.Pravice).HasColumnName("pravice");
 
@@ -709,9 +676,7 @@ namespace AvtokampiWebAPI.Models
                     .HasColumnName("vrsta_kampiranja_id")
                     .HasDefaultValueSql("nextval('vrsta_kampiranja_seq'::regclass)");
 
-                entity.Property(e => e.Isactive)
-                    .HasColumnName("isactive")
-                    .HasColumnType("bit(1)");
+                entity.Property(e => e.Isactive).HasColumnName("isactive");
 
                 entity.Property(e => e.Naziv)
                     .HasColumnName("naziv")

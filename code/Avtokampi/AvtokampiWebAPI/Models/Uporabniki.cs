@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections;
 
 namespace AvtokampiWebAPI.Models
 {
@@ -19,7 +18,7 @@ namespace AvtokampiWebAPI.Models
         public string Telefon { get; set; }
         public string Email { get; set; }
         public string Geslo { get; set; }
-        public BitArray Isactive { get; set; }
+        public bool? Isactive { get; set; }
         public DateTime? CreatedAt { get; set; }
         public DateTime? UpdatedAt { get; set; }
         public int Pravice { get; set; }

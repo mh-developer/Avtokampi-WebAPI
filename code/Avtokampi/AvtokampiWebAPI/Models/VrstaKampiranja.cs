@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections;
 
 namespace AvtokampiWebAPI.Models
 {
@@ -13,7 +12,7 @@ namespace AvtokampiWebAPI.Models
 
         public int VrstaKampiranjaId { get; set; }
         public string Naziv { get; set; }
-        public BitArray Isactive { get; set; }
+        public bool? Isactive { get; set; }
 
         public virtual ICollection<Rezervacije> Rezervacije { get; set; }
     }
