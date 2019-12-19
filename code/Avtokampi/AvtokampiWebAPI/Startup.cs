@@ -104,8 +104,7 @@ namespace AvtokampiWebAPI
                     Type = SecuritySchemeType.Http,
                     BearerFormat = "JWT"
                 });
-                c.AddSecurityRequirement(new OpenApiSecurityRequirement
-                    {
+                c.AddSecurityRequirement(new OpenApiSecurityRequirement {
                     {
                         new OpenApiSecurityScheme
                         {

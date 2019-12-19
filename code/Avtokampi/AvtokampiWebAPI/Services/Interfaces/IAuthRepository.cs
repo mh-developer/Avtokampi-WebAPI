@@ -8,6 +8,6 @@ namespace AvtokampiWebAPI.Services.Interfaces
 
         bool IsValidUser(string username, string password);
 
-        bool IsRegister(Uporabniki user);
+        bool IsRegister(RegisterModel user);
     }
 }

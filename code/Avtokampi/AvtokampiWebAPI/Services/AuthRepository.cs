@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
+using System.Security.Cryptography;
 using System.Text;
 
 namespace AvtokampiWebAPI.Services
@@ -24,44 +25,74 @@ namespace AvtokampiWebAPI.Services
         {
             token = string.Empty;
 
-            if (!IsValidUser(request.Username, request.Password)) return false;
+            //if (!IsValidUser(request.Username, request.Password)) return false;
 
-            string zaposleni = null;
-            if (zaposleni == null) return false;
-
-            var claim = new List<Claim>()
+            using (var _db = new avtokampiContext())
             {
-                new Claim(ClaimTypes.Name, request.Username),
-                new Claim(ClaimTypes.Role, "Administrator")
-            };
+                var user = _db.Uporabniki.Where(o => o.Email == request.Username).SingleOrDefault();
+                if (user == null) return false;
 
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_tokenManagement.Secret));
-            var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+                var claim = new List<Claim>()
+                {
+                    new Claim(ClaimTypes.Name, request.Username),
+                    new Claim(ClaimTypes.Role, "Admin"/*_db.Pravice.Where(o => o.PravicaId == user.UporabnikId).Select(o => o.Naziv).FirstOrDefault()*/)
+                };
 
-            var jwtToken = new JwtSecurityToken(
-                _tokenManagement.Issuer,
-                _tokenManagement.Audience,
-                claim,
-                expires: DateTime.Now.AddDays(_tokenManagement.AccessExpiration),
-                signingCredentials: credentials
-            );
-            token = new JwtSecurityTokenHandler().WriteToken(jwtToken);
-            return true;
+                var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_tokenManagement.Secret));
+                var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+
+                var jwtToken = new JwtSecurityToken(
+                    _tokenManagement.Issuer,
+                    _tokenManagement.Audience,
+                    claim,
+                    expires: DateTime.Now.AddDays(_tokenManagement.AccessExpiration),
+                    signingCredentials: credentials
+                );
+                token = new JwtSecurityTokenHandler().WriteToken(jwtToken);
+                return true;
+            }
         }
 
-        public bool IsRegister(Uporabniki user)
+        public bool IsRegister(RegisterModel user)
         {
-            throw new NotImplementedException();
+            if(user != null && !string.IsNullOrWhiteSpace(user.Email) && !string.IsNullOrWhiteSpace(user.Geslo))
+            {
+                using var sha2 = new SHA256CryptoServiceProvider();
+                var data = Encoding.UTF8.GetBytes(user.Geslo);
+                var passwd = sha2.ComputeHash(data);
+                var hashedpasswd = BitConverter.ToString(passwd).Replace("-", "").ToLower();
+
+                using var _db = new avtokampiContext();
+                user.Geslo = hashedpasswd;
+                _db.Uporabniki.Add(new Uporabniki() { 
+                    Ime = user.Ime,
+                    Priimek = user.Priimek,
+                    Telefon = user.Telefon ?? null,
+                    Email = user.Email,
+                    Geslo = hashedpasswd,
+                    Pravice = 1
+                });
+                _db.SaveChanges();
+                return true;
+            }
+            return false;
         }
 
         public bool IsValidUser(string username, string password)
         {
             using (var _db = new avtokampiContext())
             {
-                if(!string.IsNullOrWhiteSpace(username) && !string.IsNullOrWhiteSpace(password))
+                if (!string.IsNullOrWhiteSpace(username) && !string.IsNullOrWhiteSpace(password))
                 {
-                    var user = _db.Uporabniki.Where(o => o.Email == username).FirstOrDefault();
-                    if(user != null && user.Geslo == password)
+                    var user = _db.Uporabniki.Where(o => o.Email == username).SingleOrDefault();
+
+                    using var sha2 = new SHA256CryptoServiceProvider();
+                    var data = Encoding.UTF8.GetBytes(password);
+                    var passwd = sha2.ComputeHash(data);
+                    var hashedpasswd = BitConverter.ToString(passwd).Replace("-", "").ToLower();
+
+
+                    if (user != null && user.Geslo == hashedpasswd)
                     {
                         return true;
                     }

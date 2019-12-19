@@ -38,10 +38,10 @@ namespace AvtokampiWebAPI.Controllers
         {
             try
             {
-                if (!ModelState.IsValid)
-                {
-                    return BadRequest(ModelState);
-                }
+                //if (!ModelState.IsValid)
+                //{
+                //    return BadRequest(ModelState);
+                //}
 
                 string token;
                 if (_authService.IsAuthenticated(request, out token))
@@ -61,15 +61,15 @@ namespace AvtokampiWebAPI.Controllers
         ///     Registracija uporabnika
         /// </summary>
         /// <returns>Boolean value</returns>
-        /// <response code="201">Successfully rigister user</response>
+        /// <response code="201">Successfully register user</response>
         /// <response code="400">Bad request error massage</response>
         /// <response code="401">Unauthorized</response>
         [AllowAnonymous]
         [HttpPost("register")]
-        [ProducesResponseType(204)]
+        [ProducesResponseType(201)]
         [ProducesResponseType(400)]
         [ProducesResponseType(401)]
-        public IActionResult RequestRegister([FromBody] Uporabniki user)
+        public IActionResult RequestRegister([FromBody] RegisterModel user)
         {
             try
             {
@@ -86,9 +86,9 @@ namespace AvtokampiWebAPI.Controllers
 
                 return Created("/auth/login", result);
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                return BadRequest(/*new ErrorHandlerModel(e.Message, HttpStatusCode.BadRequest)*/);
+                return BadRequest(e/*new ErrorHandlerModel(e.Message, HttpStatusCode.BadRequest)*/);
             }
         }
     }
