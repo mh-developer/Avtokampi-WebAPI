@@ -25,17 +25,18 @@ namespace AvtokampiWebAPI.Services
         {
             token = string.Empty;
 
-            //if (!IsValidUser(request.Username, request.Password)) return false;
+            if (!IsValidUser(request.Username, request.Password)) return false;
 
             using (var _db = new avtokampiContext())
             {
                 var user = _db.Uporabniki.Where(o => o.Email == request.Username).SingleOrDefault();
                 if (user == null) return false;
 
+                var get_permissions = _db.Pravice.Where(o => o.PravicaId == user.UporabnikId).Select(o => o.Naziv).FirstOrDefault();
                 var claim = new List<Claim>()
                 {
                     new Claim(ClaimTypes.Name, request.Username),
-                    new Claim(ClaimTypes.Role, "Admin"/*_db.Pravice.Where(o => o.PravicaId == user.UporabnikId).Select(o => o.Naziv).FirstOrDefault()*/)
+                    new Claim(ClaimTypes.Role, get_permissions.ToString())
                 };
 
                 var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_tokenManagement.Secret));
@@ -90,7 +91,6 @@ namespace AvtokampiWebAPI.Services
                     var data = Encoding.UTF8.GetBytes(password);
                     var passwd = sha2.ComputeHash(data);
                     var hashedpasswd = BitConverter.ToString(passwd).Replace("-", "").ToLower();
-
 
                     if (user != null && user.Geslo == hashedpasswd)
                     {

@@ -51,8 +51,9 @@ namespace AvtokampiWebAPI.Controllers
 
                 return Unauthorized(/*new ErrorHandlerModel("Napačno uporabniško ime ali geslo", HttpStatusCode.Unauthorized)*/);
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                _logger.LogError("RequestToken Auth Unhandled exception ...", e);
                 return BadRequest(/*new ErrorHandlerModel(e.Message, HttpStatusCode.BadRequest)*/);
             }
         }
@@ -88,6 +89,7 @@ namespace AvtokampiWebAPI.Controllers
             }
             catch (Exception e)
             {
+                _logger.LogError("RequestRegister Auth Unhandled exception ...", e);
                 return BadRequest(e/*new ErrorHandlerModel(e.Message, HttpStatusCode.BadRequest)*/);
             }
         }
