@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace AvtokampiWebAPI.Services.Interfaces
 {
-    interface IRezervacijeRepository
+    public interface IRezervacijeRepository
     {
         List<Rezervacije> GetRezervacijeByUporabnik(int uporabnik_id);
 

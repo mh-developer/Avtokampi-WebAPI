@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace AvtokampiWebAPI.Services.Interfaces
 {
-    interface IUporabnikiRepository
+    public interface IUporabnikiRepository
     {
         Uporabniki GetUporabnikByID(int id);
 

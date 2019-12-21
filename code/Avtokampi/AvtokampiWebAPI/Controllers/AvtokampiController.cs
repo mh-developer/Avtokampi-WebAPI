@@ -18,7 +18,7 @@ namespace AvtokampiWebAPI.Controllers
         private readonly IAvtokampiRepository _avtokampiService;
         private readonly ILogger _logger;
 
-        public AvtokampiController(AvtokampiRepository avtokampiService, ILogger<AvtokampiController> logger)
+        public AvtokampiController(IAvtokampiRepository avtokampiService, ILogger<AvtokampiController> logger)
         {
             _avtokampiService = avtokampiService;
             _logger = logger;

@@ -17,7 +17,7 @@ namespace AvtokampiWebAPI.Controllers
         private readonly IKampirnaMestaRepository _kampirnaMestaService;
         private readonly ILogger _logger;
 
-        public KampirnaMestaController(KampirnaMestaRepository kampirnaMestaService, ILogger<KampirnaMestaController> logger)
+        public KampirnaMestaController(IKampirnaMestaRepository kampirnaMestaService, ILogger<KampirnaMestaController> logger)
         {
             _kampirnaMestaService = kampirnaMestaService;
             _logger = logger;

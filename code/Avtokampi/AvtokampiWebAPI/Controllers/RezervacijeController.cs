@@ -17,7 +17,7 @@ namespace AvtokampiWebAPI.Controllers
         private readonly IRezervacijeRepository _rezervacijeService;
         private readonly ILogger _logger;
 
-        public RezervacijeController(RezervacijeRepository rezervacijeService, ILogger<RezervacijeController> logger)
+        public RezervacijeController(IRezervacijeRepository rezervacijeService, ILogger<RezervacijeController> logger)
         {
             _rezervacijeService = rezervacijeService;
             _logger = logger;

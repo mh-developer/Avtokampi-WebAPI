@@ -17,7 +17,7 @@ namespace AvtokampiWebAPI.Controllers
         private readonly IStoritveKampaRepository _storitveKampaService;
         private readonly ILogger _logger;
 
-        public StoritveKampaController(StoritveKampaRepository storitveKampaService, ILogger<StoritveKampaController> logger)
+        public StoritveKampaController(IStoritveKampaRepository storitveKampaService, ILogger<StoritveKampaController> logger)
         {
             _storitveKampaService = storitveKampaService;
             _logger = logger;

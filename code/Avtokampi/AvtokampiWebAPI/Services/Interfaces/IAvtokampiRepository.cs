@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace AvtokampiWebAPI.Services.Interfaces
 {
-    interface IAvtokampiRepository
+    public interface IAvtokampiRepository
     {
         List<Avtokampi> GetAll();
 

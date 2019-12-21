@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace AvtokampiWebAPI.Services.Interfaces
 {
-    interface IKampirnaMestaRepository
+    public interface IKampirnaMestaRepository
     {
         List<KampirnaMesta> GetKampirnoMestoByAvtokamp(int avtokamp_id);
 

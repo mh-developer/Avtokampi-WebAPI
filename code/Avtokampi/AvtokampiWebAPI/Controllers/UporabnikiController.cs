@@ -17,7 +17,7 @@ namespace AvtokampiWebAPI.Controllers
         private readonly IUporabnikiRepository _uporabnikiService;
         private readonly ILogger _logger;
 
-        public UporabnikiController(UporabnikiRepository uporabnikiService, ILogger<UporabnikiController> logger)
+        public UporabnikiController(IUporabnikiRepository uporabnikiService, ILogger<UporabnikiController> logger)
         {
             _uporabnikiService = uporabnikiService;
             _logger = logger;
