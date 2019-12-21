@@ -2,69 +2,106 @@
 using AvtokampiWebAPI.Services.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace AvtokampiWebAPI.Services
 {
     public class UporabnikiRepository : IUporabnikiRepository
     {
-        public bool CreateMnenje(Mnenja mnenje, int kamp_id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Mnenja GetMnenje(int mnenje_id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public List<Mnenja> GetMnenjeByAvtokamp(int kamp_id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public List<Mnenja> GetMnenjeByUporabnik(int uporabnik_id)
-        {
-            throw new NotImplementedException();
-        }
-
         public Uporabniki GetUporabnikByID(int id)
         {
-            throw new NotImplementedException();
+            using (var _db = new avtokampiContext())
+            {
+                return _db.Uporabniki.Find(id);
+            }
         }
 
         public Uporabniki GetUporabnikByUsername(string username)
         {
-            throw new NotImplementedException();
-        }
-
-        public bool RegisterUporabnik(Uporabniki uporabnik)
-        {
-            throw new NotImplementedException();
-        }
-
-        public bool RemoveMnenje(int mnenje_id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public bool RemoveUporabnik(int uporabnik_id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Mnenja UpdateMnenje(Mnenja mnenje, int mnenje_id)
-        {
-            throw new NotImplementedException();
+            using (var _db = new avtokampiContext())
+            {
+                return _db.Uporabniki.Where(o => o.Email == username).FirstOrDefault();
+            }
         }
 
         public Uporabniki UpdateUporabnik(Uporabniki uporabnik, int uporabnik_id)
         {
-            throw new NotImplementedException();
+            using (var _db = new avtokampiContext())
+            {
+                return null;
+            }
+        }
+
+        public bool RemoveUporabnik(int uporabnik_id)
+        {
+            using (var _db = new avtokampiContext())
+            {
+                _db.Uporabniki.Remove(_db.Uporabniki.Find(uporabnik_id));
+                _db.SaveChanges();
+                return true;
+            }
+        }
+
+        public List<Mnenja> GetMnenjeByUporabnik(int uporabnik_id)
+        {
+            using (var _db = new avtokampiContext())
+            {
+                return _db.Mnenja.Where(o => o.Uporabnik == uporabnik_id).ToList();
+            }
+        }
+
+        public List<Mnenja> GetMnenjeByAvtokamp(int kamp_id)
+        {
+            using (var _db = new avtokampiContext())
+            {
+                return _db.Mnenja.Where(o => o.Avtokamp == kamp_id).ToList();
+            }
+        }
+
+        public Mnenja GetMnenje(int mnenje_id)
+        {
+            using (var _db = new avtokampiContext())
+            {
+                return _db.Mnenja.Where(o => o.MnenjeId == mnenje_id).FirstOrDefault();
+            }
+        }
+
+        public bool CreateMnenje(Mnenja mnenje, int kamp_id)
+        {
+            using (var _db = new avtokampiContext())
+            {
+                _db.Mnenja.Add(mnenje);
+                _db.SaveChanges();
+                return true;
+            }
+        }
+
+        public Mnenja UpdateMnenje(Mnenja mnenje, int mnenje_id)
+        {
+            return null;
+        }
+
+        public bool RemoveMnenje(int mnenje_id)
+        {
+            using (var _db = new avtokampiContext())
+            {
+                _db.Mnenja.Remove(_db.Mnenja.Find(mnenje_id));
+                _db.SaveChanges();
+                return true;
+            }
         }
 
         public bool UporabnikExists(string username = null, int? up_id = null)
         {
-            throw new NotImplementedException();
+            using (var _db = new avtokampiContext())
+            {
+                if (!string.IsNullOrWhiteSpace(username))
+                {
+                    return _db.Uporabniki.Where(o => o.Email == username).Any();
+                }
+
+                return up_id != null ? _db.Uporabniki.Where(o => o.UporabnikId == up_id).Any() : false;
+            }
         }
     }
 }
