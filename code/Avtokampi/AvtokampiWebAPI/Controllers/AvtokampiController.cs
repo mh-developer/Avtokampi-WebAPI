@@ -1,5 +1,4 @@
 ﻿using AvtokampiWebAPI.Models;
-using AvtokampiWebAPI.Services;
 using AvtokampiWebAPI.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
