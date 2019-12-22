@@ -41,6 +41,7 @@ namespace AvtokampiWebAPI.Controllers
         [ProducesResponseType(200)]
         [ProducesResponseType(404)]
         [ProducesResponseType(400)]
+        [AllowAnonymous]
         public IActionResult GetAllAvtokampi()
         {
             try
@@ -74,6 +75,7 @@ namespace AvtokampiWebAPI.Controllers
         /// <response code="400">Bad request error massage</response>
         /// <response code="404">Not found error massage</response>
         [HttpGet("{kamp_id}")]
+        [AllowAnonymous]
         [ProducesResponseType(200)]
         [ProducesResponseType(404)]
         [ProducesResponseType(400)]
@@ -244,6 +246,7 @@ namespace AvtokampiWebAPI.Controllers
         [ProducesResponseType(200)]
         [ProducesResponseType(404)]
         [ProducesResponseType(400)]
+        [AllowAnonymous]
         public IActionResult GetSlikeAvtokampa(int kamp_id)
         {
             try
@@ -501,6 +504,7 @@ namespace AvtokampiWebAPI.Controllers
         [ProducesResponseType(200)]
         [ProducesResponseType(404)]
         [ProducesResponseType(400)]
+        [AllowAnonymous]
         public IActionResult GetCenikiAvtokampa(int kamp_id)
         {
             try
@@ -541,6 +545,7 @@ namespace AvtokampiWebAPI.Controllers
         [ProducesResponseType(200)]
         [ProducesResponseType(404)]
         [ProducesResponseType(400)]
+        [AllowAnonymous]
         public IActionResult GetCenikAvtokampa(int cenik_id)
         {
             try
@@ -708,6 +713,7 @@ namespace AvtokampiWebAPI.Controllers
         [ProducesResponseType(200)]
         [ProducesResponseType(404)]
         [ProducesResponseType(400)]
+        [AllowAnonymous]
         public IActionResult GetRegije()
         {
             try
@@ -743,6 +749,7 @@ namespace AvtokampiWebAPI.Controllers
         [ProducesResponseType(200)]
         [ProducesResponseType(404)]
         [ProducesResponseType(400)]
+        [AllowAnonymous]
         public IActionResult GetDrzave()
         {
             try
