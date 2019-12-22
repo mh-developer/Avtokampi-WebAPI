@@ -375,7 +375,7 @@ namespace AvtokampiWebAPI.Controllers
         /// <response code="204">No content</response>
         /// <response code="400">Bad request error massage</response>
         /// <response code="404">Not found error massage</response>
-        [HttpPut("{slika_id}")]
+        [HttpPut("{slika_id}/slika")]
         [ProducesResponseType(204)]
         [ProducesResponseType(404)]
         [ProducesResponseType(400)]
@@ -662,7 +662,7 @@ namespace AvtokampiWebAPI.Controllers
         /// <remarks>
         /// Primer zahtevka:
         ///
-        ///     DELETE api/Avtokampi/1234
+        ///     DELETE api/Avtokampi/1234/cenik
         ///
         /// </remarks>
         /// <returns>Boolean value</returns>
@@ -670,7 +670,7 @@ namespace AvtokampiWebAPI.Controllers
         /// <response code="204">No content</response>
         /// <response code="400">Bad request error massage</response>
         /// <response code="404">Not found error massage</response>
-        [HttpDelete("{cenik_id}")]
+        [HttpDelete("{cenik_id}/cenik")]
         [ProducesResponseType(204)]
         [ProducesResponseType(404)]
         [ProducesResponseType(400)]

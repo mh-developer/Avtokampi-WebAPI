@@ -28,7 +28,7 @@ namespace AvtokampiWebAPI.Controllers
         /// <remarks>
         /// Primer zahtevka:
         ///
-        ///     GET api/kampirnamesta/avtokamp/123
+        ///     GET api/kampirnamesta/123/avtokamp
         ///
         /// </remarks>
         /// <returns>Seznam vseh kampirnih mest avtokampa</returns>
@@ -36,7 +36,7 @@ namespace AvtokampiWebAPI.Controllers
         /// <response code="200">Seznam Kampirnih mest za podani avtokamp</response>
         /// <response code="400">Bad request error massage</response>
         /// <response code="404">Not found error massage</response>
-        [HttpGet("avtokamp/{kamp_id}")]
+        [HttpGet("{kamp_id}/avtokamp")]
         [ProducesResponseType(200)]
         [ProducesResponseType(404)]
         [ProducesResponseType(400)]

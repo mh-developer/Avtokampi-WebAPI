@@ -28,7 +28,7 @@ namespace AvtokampiWebAPI.Controllers
         /// <remarks>
         /// Primer zahtevka:
         ///
-        ///     GET api/storitvekampa/123
+        ///     GET api/storitvekampa/123/avtokamp
         ///
         /// </remarks>
         /// <returns>Seznam vseh aktivnih storitev avtokampa</returns>
@@ -36,7 +36,7 @@ namespace AvtokampiWebAPI.Controllers
         /// <response code="200">Seznam storitev avtokampa</response>
         /// <response code="400">Bad request error massage</response>
         /// <response code="404">Not found error massage</response>
-        [HttpGet("{kamp_id}")]
+        [HttpGet("{kamp_id}/avtokamp")]
         [ProducesResponseType(200)]
         [ProducesResponseType(404)]
         [ProducesResponseType(400)]
@@ -64,7 +64,7 @@ namespace AvtokampiWebAPI.Controllers
         /// <remarks>
         /// Primer zahtevka:
         ///
-        ///     GET api/storitvekampa/1234
+        ///     GET api/storitvekampa/1234/KampirnoMesto
         ///
         /// </remarks>
         /// <returns>Objekt StoritveKampa</returns>
@@ -72,7 +72,7 @@ namespace AvtokampiWebAPI.Controllers
         /// <response code="200">Seznam storitev kampirnega mesta</response>
         /// <response code="400">Bad request error massage</response>
         /// <response code="404">Not found error massage</response>
-        [HttpGet("{kamp_mesto_id}")]
+        [HttpGet("{kamp_mesto_id}/KampirnoMesto")]
         [ProducesResponseType(200)]
         [ProducesResponseType(404)]
         [ProducesResponseType(400)]

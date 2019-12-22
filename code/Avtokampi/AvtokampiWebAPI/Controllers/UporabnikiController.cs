@@ -68,7 +68,7 @@ namespace AvtokampiWebAPI.Controllers
         /// <remarks>
         /// Primer zahtevka:
         ///
-        ///     GET api/uporabniki/asd
+        ///     GET api/uporabniki/asd/username
         ///
         /// </remarks>
         /// <returns>Objekt Uporabniki</returns>
@@ -76,7 +76,7 @@ namespace AvtokampiWebAPI.Controllers
         /// <response code="200">Uporabnik</response>
         /// <response code="400">Bad request error massage</response>
         /// <response code="404">Not found error massage</response>
-        [HttpGet("{username}")]
+        [HttpGet("{username}/username")]
         [ProducesResponseType(200)]
         [ProducesResponseType(404)]
         [ProducesResponseType(400)]

@@ -29,14 +29,14 @@ namespace AvtokampiWebAPI.Controllers
         /// <remarks>
         /// Primer zahtevka:
         ///
-        ///     GET api/rezervacije
+        ///     GET api/rezervacije/123/uporabnik
         ///
         /// </remarks>
         /// <returns>Seznam rezervacij</returns>
         /// <response code="200">Seznam rezervacij za uporabnika</response>
         /// <response code="400">Bad request error massage</response>
         /// <response code="404">Not found error massage</response>
-        [HttpGet("{user_id}")]
+        [HttpGet("{user_id}/uporabnik")]
         [ProducesResponseType(200)]
         [ProducesResponseType(404)]
         [ProducesResponseType(400)]
