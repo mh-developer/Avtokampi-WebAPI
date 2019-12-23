@@ -1,5 +1,6 @@
 ﻿using AvtokampiWebAPI.Models;
 using AvtokampiWebAPI.Services.Interfaces;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -28,6 +29,7 @@ namespace AvtokampiWebAPI.Services
         {
             using (var _db = new avtokampiContext())
             {
+                rez.CreatedAt = rez.UpdatedAt = DateTime.Now;
                 _db.Rezervacije.Add(rez);
                 _db.SaveChanges();
                 return true;
@@ -36,7 +38,14 @@ namespace AvtokampiWebAPI.Services
 
         public Rezervacije UpdateRezervacija(Rezervacije rez, int rez_id)
         {
-            return null;
+            using (var _db = new avtokampiContext())
+            {
+                rez.UpdatedAt = DateTime.Now;
+                _db.Entry(rez).State = EntityState.Modified;
+                _db.Entry(rez).Property(x => x.CreatedAt).IsModified = false;
+                _db.SaveChanges();
+                return _db.Rezervacije.Find(rez_id);
+            }
         }
 
         public bool RemoveRezervacija(int rez_id)

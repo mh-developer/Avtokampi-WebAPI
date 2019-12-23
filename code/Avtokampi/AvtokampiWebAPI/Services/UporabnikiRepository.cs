@@ -1,5 +1,6 @@
 ﻿using AvtokampiWebAPI.Models;
 using AvtokampiWebAPI.Services.Interfaces;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -28,7 +29,11 @@ namespace AvtokampiWebAPI.Services
         {
             using (var _db = new avtokampiContext())
             {
-                return null;
+                uporabnik.UpdatedAt = DateTime.Now;
+                _db.Entry(uporabnik).State = EntityState.Modified;
+                _db.Entry(uporabnik).Property(x => x.CreatedAt).IsModified = false;
+                _db.SaveChanges();
+                return _db.Uporabniki.Find(uporabnik_id);
             }
         }
 
@@ -78,7 +83,14 @@ namespace AvtokampiWebAPI.Services
 
         public Mnenja UpdateMnenje(Mnenja mnenje, int mnenje_id)
         {
-            return null;
+            using(var _db = new avtokampiContext())
+            {
+                mnenje.UpdatedAt = DateTime.Now;
+                _db.Entry(mnenje).State = EntityState.Modified;
+                _db.Entry(mnenje).Property(x => x.CreatedAt).IsModified = false;
+                _db.SaveChanges();
+                return _db.Mnenja.Find(mnenje_id);
+            }
         }
 
         public bool RemoveMnenje(int mnenje_id)

@@ -1,5 +1,7 @@
 ﻿using AvtokampiWebAPI.Models;
 using AvtokampiWebAPI.Services.Interfaces;
+using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -27,6 +29,7 @@ namespace AvtokampiWebAPI.Services
         {
             using (var _db = new avtokampiContext())
             {
+                avtokamp.CreatedAt = avtokamp.UpdatedAt = DateTime.Now;
                 _db.Avtokampi.Add(avtokamp);
                 _db.SaveChanges();
                 return true;
@@ -35,7 +38,14 @@ namespace AvtokampiWebAPI.Services
 
         public Avtokampi UpdateAvtokamp(Avtokampi avtokamp, int avtokamp_id)
         {
-            return null;
+            using (var _db = new avtokampiContext())
+            {
+                avtokamp.UpdatedAt = DateTime.Now;
+                _db.Entry(avtokamp).State = EntityState.Modified;
+                _db.Entry(avtokamp).Property(x => x.CreatedAt).IsModified = false;
+                _db.SaveChanges();
+                return _db.Avtokampi.Find(avtokamp_id);
+            }
         }
 
         public bool RemoveAvtokamp(int avtokamp_id)
@@ -60,6 +70,7 @@ namespace AvtokampiWebAPI.Services
         {
             using (var _db = new avtokampiContext())
             {
+                slika.CreatedAt = slika.Updated = DateTime.Now;
                 _db.Slike.Add(slika);
                 _db.SaveChanges();
                 return true;
@@ -78,12 +89,28 @@ namespace AvtokampiWebAPI.Services
 
         public Slike UpdateSlikaAvtokampa(Slike slika, int slika_id)
         {
-            return null;
+            using (var _db = new avtokampiContext())
+            {
+                slika.Updated = DateTime.Now;
+                _db.Entry(slika).State = EntityState.Modified;
+                _db.Entry(slika).Property(x => x.CreatedAt).IsModified = false;
+                _db.SaveChanges();
+                return _db.Slike.Find(slika_id);
+            }
         }
 
         public List<Slike> UpdateSlikeAvtokampa(List<Slike> slike, List<int> slika_id)
         {
-            return null;
+            using (var _db = new avtokampiContext())
+            {
+                slike.ForEach(o => {
+                    o.Updated = DateTime.Now;
+                    _db.Entry(o).State = EntityState.Modified;
+                    _db.Entry(o).Property(x => x.CreatedAt).IsModified = false;
+                    _db.SaveChanges();
+                });
+                return slike;
+            }
         }
 
         public bool RemoveSlikaAvtokampa(int slika_id)
@@ -116,6 +143,7 @@ namespace AvtokampiWebAPI.Services
         {
             using (var _db = new avtokampiContext())
             {
+                cenik.CreatedAt = cenik.UpdatedAt = DateTime.Now;
                 _db.Ceniki.Add(cenik);
                 _db.SaveChanges();
                 return true;
@@ -124,7 +152,14 @@ namespace AvtokampiWebAPI.Services
 
         public Ceniki UpdateCenik(Ceniki cenik, int cenik_id)
         {
-            return null;
+            using (var _db = new avtokampiContext())
+            {
+                cenik.UpdatedAt = DateTime.Now;
+                _db.Entry(cenik).State = EntityState.Modified;
+                _db.Entry(cenik).Property(x => x.CreatedAt).IsModified = false;
+                _db.SaveChanges();
+                return _db.Ceniki.Find(cenik_id);
+            }
         }
 
         public bool RemoveCenikAvtokampa(int cenik_id)

@@ -1,5 +1,6 @@
 ﻿using AvtokampiWebAPI.Models;
 using AvtokampiWebAPI.Services.Interfaces;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -28,6 +29,7 @@ namespace AvtokampiWebAPI.Services
         {
             using (var _db = new avtokampiContext())
             {
+                kamp_mesto.CreatedAt = kamp_mesto.UpdatedAt = DateTime.Now;
                 _db.Add(kamp_mesto);
                 _db.SaveChanges();
                 return true;
@@ -36,7 +38,14 @@ namespace AvtokampiWebAPI.Services
 
         public KampirnaMesta UpdateKampirnoMesto(KampirnaMesta kamp_mesto, int kamp_id, int kamp_mesto_id)
         {
-            return null;
+            using (var _db = new avtokampiContext())
+            {
+                kamp_mesto.UpdatedAt = DateTime.Now;
+                _db.Entry(kamp_mesto).State = EntityState.Modified;
+                _db.Entry(kamp_mesto).Property(x => x.CreatedAt).IsModified = false;
+                _db.SaveChanges();
+                return _db.KampirnaMesta.Find(kamp_mesto_id);
+            }
         }
 
         public bool RemoveKampMesto(int kamp_id, int kamp_mesto_id)

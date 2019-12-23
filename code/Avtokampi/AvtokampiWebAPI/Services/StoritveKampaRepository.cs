@@ -1,5 +1,6 @@
 ﻿using AvtokampiWebAPI.Models;
 using AvtokampiWebAPI.Services.Interfaces;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -62,7 +63,9 @@ namespace AvtokampiWebAPI.Services
         {
             using (var _db = new avtokampiContext())
             {
-                return null;
+                _db.Entry(storitev).State = EntityState.Modified;
+                _db.SaveChanges();
+                return _db.Storitve.Find(storitev_id);
             }
         }
 
