@@ -15,10 +15,12 @@ namespace AvtokampiWebAPI.Services
     public class AuthRepository : IAuthRepository
     {
         private readonly TokenManagement _tokenManagement;
+        private readonly IUporabnikiRepository _uporabnikiService;
 
-        public AuthRepository(IOptions<TokenManagement> tokenManagement)
+        public AuthRepository(IOptions<TokenManagement> tokenManagement, IUporabnikiRepository uporabnikiService)
         {
             _tokenManagement = tokenManagement.Value;
+            _uporabnikiService = uporabnikiService;
         }
 
         public bool IsAuthenticated(TokenModel request, out string token)
@@ -56,6 +58,8 @@ namespace AvtokampiWebAPI.Services
 
         public bool IsRegister(RegisterModel user)
         {
+            if (_uporabnikiService.UporabnikExists(user.Email)) return false;
+
             if(user != null && !string.IsNullOrWhiteSpace(user.Email) && !string.IsNullOrWhiteSpace(user.Geslo))
             {
                 using var sha2 = new SHA256CryptoServiceProvider();
@@ -71,7 +75,9 @@ namespace AvtokampiWebAPI.Services
                     Telefon = user.Telefon ?? null,
                     Email = user.Email,
                     Geslo = hashedpasswd,
-                    Pravice = 1
+                    Pravice = 1,
+                    CreatedAt = DateTime.Now,
+                    UpdatedAt = DateTime.Now
                 });
                 _db.SaveChanges();
                 return true;
