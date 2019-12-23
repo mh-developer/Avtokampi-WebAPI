@@ -34,7 +34,7 @@ namespace AvtokampiWebAPI.Services
                 var user = _db.Uporabniki.Where(o => o.Email == request.Username).SingleOrDefault();
                 if (user == null) return false;
 
-                var get_permissions = _db.Pravice.Where(o => o.PravicaId == user.UporabnikId).Select(o => o.Naziv).FirstOrDefault();
+                var get_permissions = _db.Pravice.Where(o => o.PravicaId == user.Pravice).Select(o => o.Naziv).FirstOrDefault() ?? "";
                 var claim = new List<Claim>()
                 {
                     new Claim(ClaimTypes.Name, request.Username),
