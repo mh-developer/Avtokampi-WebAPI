@@ -31,7 +31,7 @@ jobs:
         username: ${{ secrets.USERNAME }}
         password: ${{ secrets.PASSWORD }}
         port: ${{ secrets.PORT }}
-        source: "/home/runner/work/Avtokampi-WebAPI/Avtokampi-WebAPI/code/Avtokampi/AvtokampiWebAPI/bin/Release/netcoreapp3.0/"
+        source: "/home/runner/work/Avtokampi-WebAPI/Avtokampi-WebAPI/code/Avtokampi/AvtokampiWebAPI/bin/Release/netcoreapp3.1/"
         target: "~/testgithub/"
     - name: Kill an existing API process and start the API by executing dotnet command remotely
       uses: appleboy/ssh-action@master
@@ -40,4 +40,4 @@ jobs:
         username: ${{ secrets.USERNAME }}
         password: ${{ secrets.PASSWORD }}
         port: ${{ secrets.PORT }}
-        script: screen -d -m -S SERVER bash -c 'pkill dotnet && cd ~/testgithub/github/workspace/code/Avtokampi/AvtokampiWebAPI/bin/Release/netcoreapp3.0/ && dotnet AvtokampiWebAPI.dll || cd ~/testgithub/github/workspace/code/Avtokampi/AvtokampiWebAPI/bin/Release/netcoreapp3.0/ && dotnet AvtokampiWebAPI.dll'
+        script: screen -d -m -S SERVER bash -c 'pkill dotnet && cd ~/testgithub/github/workspace/code/Avtokampi/AvtokampiWebAPI/bin/Release/netcoreapp3.1/ && dotnet AvtokampiWebAPI.dll || cd ~/testgithub/github/workspace/code/Avtokampi/AvtokampiWebAPI/bin/Release/netcoreapp3.1/ && dotnet AvtokampiWebAPI.dll'
