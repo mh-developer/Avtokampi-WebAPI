@@ -21,7 +21,7 @@ namespace AvtokampiWebAPI.Services
         {
             //using (var _db = new avtokampiContext())
             //{
-                return _db.Avtokampi.ToList();
+                return await _db.Avtokampi.ToListAsync();
             //}
         }
 

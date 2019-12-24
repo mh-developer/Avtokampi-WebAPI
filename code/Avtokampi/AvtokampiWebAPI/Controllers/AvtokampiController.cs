@@ -49,7 +49,7 @@ namespace AvtokampiWebAPI.Controllers
         {
             try
             {
-                var result = _avtokampiService.GetAll();
+                var result = await _avtokampiService.GetAll();
                 if (result == null)
                 {
                     return NotFound(/*new ErrorHandlerModel($"Zaposleni z ID { id }, ne obstaja.", HttpStatusCode.NotFound)*/);

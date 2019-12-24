@@ -39,13 +39,6 @@ namespace AvtokampiWebAPI
             services.AddEntityFrameworkNpgsql().AddDbContext<avtokampiContext>(options =>
                 options.UseNpgsql(Configuration.GetConnectionString("Avtokampi"))
             );
-            //services.AddDbContext<avtokampiContext>(options => options.UseNpgsql(Configuration.GetConnectionString("Avtokampi")));
-            //var builder = new NpgsqlConnectionStringBuilder(Configuration.GetConnectionString("Avtokampi"))
-            //{
-            //    Password = "disibio91"
-            //};
-
-            //services.AddDbContext<avtokampiContext>(options => options.UseNpgsql(builder.ConnectionString));
 
 
 
