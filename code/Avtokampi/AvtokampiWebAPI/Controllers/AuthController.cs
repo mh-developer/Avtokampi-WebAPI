@@ -47,7 +47,7 @@ namespace AvtokampiWebAPI.Controllers
                 var result = await _authService.IsAuthenticated(request);
                 if (result.Item1)
                 {
-                    return Ok(new { result.Item2 });
+                    return Ok(new { token = result.Item2 });
                 }
 
                 return Unauthorized(/*new ErrorHandlerModel("Napačno uporabniško ime ali geslo", HttpStatusCode.Unauthorized)*/);
