@@ -17,13 +17,11 @@ namespace AvtokampiWebAPI.Controllers
     {
         private readonly IAvtokampiRepository _avtokampiService;
         private readonly ILogger _logger;
-        private readonly avtokampiContext _db;
 
-        public AvtokampiController(IAvtokampiRepository avtokampiService, ILogger<AvtokampiController> logger, avtokampiContext db)
+        public AvtokampiController(IAvtokampiRepository avtokampiService, ILogger<AvtokampiController> logger)
         {
             _avtokampiService = avtokampiService;
             _logger = logger;
-            _db = db;
         }
 
 

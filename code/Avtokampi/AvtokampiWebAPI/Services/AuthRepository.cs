@@ -18,11 +18,13 @@ namespace AvtokampiWebAPI.Services
     {
         private readonly TokenManagement _tokenManagement;
         private readonly IUporabnikiRepository _uporabnikiService;
+        private readonly avtokampiContext _db;
 
-        public AuthRepository(IOptions<TokenManagement> tokenManagement, IUporabnikiRepository uporabnikiService)
+        public AuthRepository(IOptions<TokenManagement> tokenManagement, IUporabnikiRepository uporabnikiService, avtokampiContext db)
         {
             _tokenManagement = tokenManagement.Value;
             _uporabnikiService = uporabnikiService;
+            _db = db;
         }
 
         public async Task<Tuple<bool, string>> IsAuthenticated(TokenModel request)
@@ -31,31 +33,29 @@ namespace AvtokampiWebAPI.Services
 
             if (!await IsValidUser(request.Username, request.Password)) return new Tuple<bool, string>(false, token);
 
-            using (var _db = new avtokampiContext())
+            var user = await _db.Uporabniki.Where(o => o.Email == request.Username).SingleOrDefaultAsync();
+            if (user == null) return new Tuple<bool, string>(false, token);
+
+            var get_permissions = await _db.Pravice.Where(o => o.PravicaId == user.Pravice).Select(o => o.Naziv).FirstOrDefaultAsync() ?? "";
+            var claim = new List<Claim>()
             {
-                var user = await _db.Uporabniki.Where(o => o.Email == request.Username).SingleOrDefaultAsync();
-                if (user == null) return new Tuple<bool, string>(false, token);
+                new Claim(ClaimTypes.Name, request.Username),
+                new Claim(ClaimTypes.Role, get_permissions.ToString())
+            };
 
-                var get_permissions = await _db.Pravice.Where(o => o.PravicaId == user.Pravice).Select(o => o.Naziv).FirstOrDefaultAsync() ?? "";
-                var claim = new List<Claim>()
-                {
-                    new Claim(ClaimTypes.Name, request.Username),
-                    new Claim(ClaimTypes.Role, get_permissions.ToString())
-                };
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_tokenManagement.Secret));
+            var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
-                var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_tokenManagement.Secret));
-                var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+            var jwtToken = new JwtSecurityToken(
+                _tokenManagement.Issuer,
+                _tokenManagement.Audience,
+                claim,
+                expires: DateTime.Now.AddDays(_tokenManagement.AccessExpiration),
+                signingCredentials: credentials
+            );
+            token = new JwtSecurityTokenHandler().WriteToken(jwtToken);
+            return new Tuple<bool, string>(true, token);
 
-                var jwtToken = new JwtSecurityToken(
-                    _tokenManagement.Issuer,
-                    _tokenManagement.Audience,
-                    claim,
-                    expires: DateTime.Now.AddDays(_tokenManagement.AccessExpiration),
-                    signingCredentials: credentials
-                );
-                token = new JwtSecurityTokenHandler().WriteToken(jwtToken);
-                return new Tuple<bool, string>(true, token);
-            }
         }
 
         public async Task<bool> IsRegister(RegisterModel user)
@@ -69,9 +69,9 @@ namespace AvtokampiWebAPI.Services
                 var passwd = sha2.ComputeHash(data);
                 var hashedpasswd = BitConverter.ToString(passwd).Replace("-", "").ToLower();
 
-                using var _db = new avtokampiContext();
                 user.Geslo = hashedpasswd;
-                await _db.Uporabniki.AddAsync(new Uporabniki() { 
+                await _db.Uporabniki.AddAsync(new Uporabniki()
+                {
                     Ime = user.Ime,
                     Priimek = user.Priimek,
                     Telefon = user.Telefon ?? null,
@@ -89,25 +89,22 @@ namespace AvtokampiWebAPI.Services
 
         public async Task<bool> IsValidUser(string username, string password)
         {
-            using (var _db = new avtokampiContext())
+            if (!string.IsNullOrWhiteSpace(username) && !string.IsNullOrWhiteSpace(password))
             {
-                if (!string.IsNullOrWhiteSpace(username) && !string.IsNullOrWhiteSpace(password))
+                var user = await _db.Uporabniki.Where(o => o.Email == username).SingleOrDefaultAsync();
+
+                using var sha2 = new SHA256CryptoServiceProvider();
+                var data = Encoding.UTF8.GetBytes(password);
+                var passwd = sha2.ComputeHash(data);
+                var hashedpasswd = BitConverter.ToString(passwd).Replace("-", "").ToLower();
+
+                if (user != null && user.Geslo == hashedpasswd)
                 {
-                    var user = await _db.Uporabniki.Where(o => o.Email == username).SingleOrDefaultAsync();
-
-                    using var sha2 = new SHA256CryptoServiceProvider();
-                    var data = Encoding.UTF8.GetBytes(password);
-                    var passwd = sha2.ComputeHash(data);
-                    var hashedpasswd = BitConverter.ToString(passwd).Replace("-", "").ToLower();
-
-                    if (user != null && user.Geslo == hashedpasswd)
-                    {
-                        return true;
-                    }
-                    return false;
+                    return true;
                 }
                 return false;
             }
+            return false;
         }
     }
 }
