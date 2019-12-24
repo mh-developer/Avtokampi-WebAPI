@@ -1,5 +1,6 @@
 ﻿using AvtokampiWebAPI.Models;
 using AvtokampiWebAPI.Services.Interfaces;
+using CryptoHelper;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
@@ -64,19 +65,13 @@ namespace AvtokampiWebAPI.Services
 
             if (user != null && !string.IsNullOrWhiteSpace(user.Email) && !string.IsNullOrWhiteSpace(user.Geslo))
             {
-                using var sha2 = new SHA256CryptoServiceProvider();
-                var data = Encoding.UTF8.GetBytes(user.Geslo);
-                var passwd = sha2.ComputeHash(data);
-                var hashedpasswd = BitConverter.ToString(passwd).Replace("-", "").ToLower();
-
-                user.Geslo = hashedpasswd;
                 await _db.Uporabniki.AddAsync(new Uporabniki()
                 {
                     Ime = user.Ime,
                     Priimek = user.Priimek,
                     Telefon = user.Telefon ?? null,
                     Email = user.Email,
-                    Geslo = hashedpasswd,
+                    Geslo = Crypto.HashPassword(user.Geslo),
                     Pravice = 3,
                     CreatedAt = DateTime.Now,
                     UpdatedAt = DateTime.Now
@@ -93,12 +88,7 @@ namespace AvtokampiWebAPI.Services
             {
                 var user = await _db.Uporabniki.Where(o => o.Email == username).SingleOrDefaultAsync();
 
-                using var sha2 = new SHA256CryptoServiceProvider();
-                var data = Encoding.UTF8.GetBytes(password);
-                var passwd = sha2.ComputeHash(data);
-                var hashedpasswd = BitConverter.ToString(passwd).Replace("-", "").ToLower();
-
-                if (user != null && user.Geslo == hashedpasswd)
+                if (user != null && Crypto.VerifyHashedPassword(user.Geslo, password))
                 {
                     return true;
                 }
