@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
+using System.Threading.Tasks;
 
 namespace AvtokampiWebAPI.Controllers
 {
@@ -40,11 +41,11 @@ namespace AvtokampiWebAPI.Controllers
         [ProducesResponseType(200)]
         [ProducesResponseType(404)]
         [ProducesResponseType(400)]
-        public IActionResult GetAllKampMesta(int kamp_id)
+        public async Task<IActionResult> GetAllKampMesta(int kamp_id)
         {
             try
             {
-                var result = _kampirnaMestaService.GetKampirnoMestoByAvtokamp(kamp_id);
+                var result = await _kampirnaMestaService.GetKampirnoMestoByAvtokamp(kamp_id);
                 if (result == null)
                 {
                     return NotFound(/*new ErrorHandlerModel($"Zaposleni z ID { id }, ne obstaja.", HttpStatusCode.NotFound)*/);
@@ -76,11 +77,11 @@ namespace AvtokampiWebAPI.Controllers
         [ProducesResponseType(200)]
         [ProducesResponseType(404)]
         [ProducesResponseType(400)]
-        public IActionResult GetKampMesto(int kamp_mesto_id)
+        public async Task<IActionResult> GetKampMesto(int kamp_mesto_id)
         {
             try
             {
-                var result = _kampirnaMestaService.GetKampirnoMestoByID(kamp_mesto_id);
+                var result = await _kampirnaMestaService.GetKampirnoMestoByID(kamp_mesto_id);
                 if (result == null)
                 {
                     return NotFound(/*new ErrorHandlerModel($"Zaposleni z ID { id }, ne obstaja.", HttpStatusCode.NotFound)*/);
@@ -120,12 +121,12 @@ namespace AvtokampiWebAPI.Controllers
         [ProducesResponseType(201)]
         [ProducesResponseType(404)]
         [ProducesResponseType(400)]
-        public IActionResult CreateKampMesto([FromBody] KampirnaMesta kamp_mesto, int kamp_id)
+        public async Task<IActionResult> CreateKampMesto([FromBody] KampirnaMesta kamp_mesto, int kamp_id)
         {
             try
             {
-                var result = _kampirnaMestaService.CreateKampirnoMesto(kamp_mesto, kamp_id);
-                if (result == null)
+                var result = await _kampirnaMestaService.CreateKampirnoMesto(kamp_mesto, kamp_id);
+                if (result == false)
                 {
                     return NotFound(/*new ErrorHandlerModel($"Zaposleni z ID { id }, ne obstaja.", HttpStatusCode.NotFound)*/);
                 }
@@ -165,11 +166,11 @@ namespace AvtokampiWebAPI.Controllers
         [ProducesResponseType(204)]
         [ProducesResponseType(404)]
         [ProducesResponseType(400)]
-        public IActionResult UpdateKampMesto([FromBody] KampirnaMesta kamp_mesto, int kamp_id, int kamp_mesto_id)
+        public async Task<IActionResult> UpdateKampMesto([FromBody] KampirnaMesta kamp_mesto, int kamp_id, int kamp_mesto_id)
         {
             try
             {
-                var result = _kampirnaMestaService.UpdateKampirnoMesto(kamp_mesto, kamp_id, kamp_mesto_id);
+                var result = await _kampirnaMestaService.UpdateKampirnoMesto(kamp_mesto, kamp_id, kamp_mesto_id);
                 if (result == null)
                 {
                     return NotFound(/*new ErrorHandlerModel($"Zaposleni z ID { id }, ne obstaja.", HttpStatusCode.NotFound)*/);
@@ -206,12 +207,12 @@ namespace AvtokampiWebAPI.Controllers
         [ProducesResponseType(204)]
         [ProducesResponseType(404)]
         [ProducesResponseType(400)]
-        public IActionResult DeleteKampMesto(int kamp_id, int kamp_mesto_id)
+        public async Task<IActionResult> DeleteKampMesto(int kamp_id, int kamp_mesto_id)
         {
             try
             {
-                var result = _kampirnaMestaService.RemoveKampMesto(kamp_id, kamp_mesto_id);
-                if (result == null)
+                var result = await _kampirnaMestaService.RemoveKampMesto(kamp_id, kamp_mesto_id);
+                if (result == false)
                 {
                     return NotFound(/*new ErrorHandlerModel($"Zaposleni z ID { id }, ne obstaja.", HttpStatusCode.NotFound)*/);
                 }
@@ -245,11 +246,11 @@ namespace AvtokampiWebAPI.Controllers
         [ProducesResponseType(200)]
         [ProducesResponseType(404)]
         [ProducesResponseType(400)]
-        public IActionResult GetKategorijeKampirnihMest()
+        public async Task<IActionResult> GetKategorijeKampirnihMest()
         {
             try
             {
-                var result = _kampirnaMestaService.GetKategorijeKampirnihMest();
+                var result = await _kampirnaMestaService.GetKategorijeKampirnihMest();
                 if (result == null)
                 {
                     return NotFound(/*new ErrorHandlerModel($"Zaposleni z ID { id }, ne obstaja.", HttpStatusCode.NotFound)*/);

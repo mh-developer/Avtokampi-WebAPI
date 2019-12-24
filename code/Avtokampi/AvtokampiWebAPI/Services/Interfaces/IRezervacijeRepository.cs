@@ -1,22 +1,23 @@
 ﻿using AvtokampiWebAPI.Models;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace AvtokampiWebAPI.Services.Interfaces
 {
     public interface IRezervacijeRepository
     {
-        List<Rezervacije> GetRezervacijeByUporabnik(int uporabnik_id);
+        Task<List<Rezervacije>> GetRezervacijeByUporabnik(int uporabnik_id);
 
-        Rezervacije GetRezervacijaByID(int rez_id);
+        Task<Rezervacije> GetRezervacijaByID(int rez_id);
 
-        bool CreateRezervacija(Rezervacije rez);
+        Task<bool> CreateRezervacija(Rezervacije rez);
 
-        Rezervacije UpdateRezervacija(Rezervacije rez, int rez_id);
+        Task<Rezervacije> UpdateRezervacija(Rezervacije rez, int rez_id);
 
-        bool RemoveRezervacija(int rez_id);
+        Task<bool> RemoveRezervacija(int rez_id);
 
-        List<VrstaKampiranja> GetVrstaKmapiranja();
+        Task<List<VrstaKampiranja>> GetVrstaKmapiranja();
 
-        List<StatusRezervacije> GetStatusRezervacije();
+        Task<List<StatusRezervacije>> GetStatusRezervacije();
     }
 }

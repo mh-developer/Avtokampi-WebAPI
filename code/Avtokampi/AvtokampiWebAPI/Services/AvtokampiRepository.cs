@@ -4,188 +4,144 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace AvtokampiWebAPI.Services
 {
     public class AvtokampiRepository : IAvtokampiRepository
     {
-        public List<Avtokampi> GetAll()
+        private readonly avtokampiContext _db;
+
+        public AvtokampiRepository(avtokampiContext db)
         {
-            using (var _db = new avtokampiContext())
-            {
-                return _db.Avtokampi.ToList();
-            }
+            _db = db;
         }
 
-        public Avtokampi GetAvtokampByID(int kamp_id)
+        public async Task<List<Avtokampi>> GetAll()
         {
-            using (var _db = new avtokampiContext())
-            {
-                return _db.Avtokampi.Where(o => o.AvtokampId == kamp_id).FirstOrDefault();
-            }
+            return await _db.Avtokampi.ToListAsync();
         }
 
-        public bool CreateAvtokamp(Avtokampi avtokamp)
+        public async Task<Avtokampi> GetAvtokampByID(int kamp_id)
         {
-            using (var _db = new avtokampiContext())
-            {
-                avtokamp.CreatedAt = avtokamp.UpdatedAt = DateTime.Now;
-                _db.Avtokampi.Add(avtokamp);
-                _db.SaveChanges();
-                return true;
-            }
+            return await _db.Avtokampi.FindAsync(kamp_id);
         }
 
-        public Avtokampi UpdateAvtokamp(Avtokampi avtokamp, int avtokamp_id)
+        public async Task<bool> CreateAvtokamp(Avtokampi avtokamp)
         {
-            using (var _db = new avtokampiContext())
-            {
-                avtokamp.UpdatedAt = DateTime.Now;
-                _db.Entry(avtokamp).State = EntityState.Modified;
-                _db.Entry(avtokamp).Property(x => x.CreatedAt).IsModified = false;
-                _db.SaveChanges();
-                return _db.Avtokampi.Find(avtokamp_id);
-            }
+            avtokamp.CreatedAt = avtokamp.UpdatedAt = DateTime.Now;
+            await _db.Avtokampi.AddAsync(avtokamp);
+            await _db.SaveChangesAsync();
+            return true;
         }
 
-        public bool RemoveAvtokamp(int avtokamp_id)
+        public async Task<Avtokampi> UpdateAvtokamp(Avtokampi avtokamp, int avtokamp_id)
         {
-            using (var _db = new avtokampiContext())
-            {
-                _db.Avtokampi.Remove(_db.Avtokampi.Find(avtokamp_id));
-                _db.SaveChanges();
-                return true;
-            }
+            avtokamp.UpdatedAt = DateTime.Now;
+            _db.Entry(avtokamp).State = EntityState.Modified;
+            _db.Entry(avtokamp).Property(x => x.CreatedAt).IsModified = false;
+            await _db.SaveChangesAsync();
+            return await _db.Avtokampi.FindAsync(avtokamp_id);
         }
 
-        public List<Slike> GetSlikeAvtokampa(int kamp_id)
+        public async Task<bool> RemoveAvtokamp(int avtokamp_id)
         {
-            using (var _db = new avtokampiContext())
-            {
-                return _db.Slike.Where(o => o.Avtokamp == kamp_id).ToList();
-            }
+            _db.Avtokampi.Remove(await _db.Avtokampi.FindAsync(avtokamp_id));
+            await _db.SaveChangesAsync();
+            return true;
         }
 
-        public bool CreateSlikaAvtokampa(Slike slika, int kamp_id)
+        public async Task<List<Slike>> GetSlikeAvtokampa(int kamp_id)
         {
-            using (var _db = new avtokampiContext())
-            {
-                slika.CreatedAt = slika.Updated = DateTime.Now;
-                _db.Slike.Add(slika);
-                _db.SaveChanges();
-                return true;
-            }
+            return await _db.Slike.Where(o => o.Avtokamp == kamp_id).ToListAsync();
         }
 
-        public bool CreateSlikeAvtokampa(List<Slike> slike, int kamp_id)
+        public async Task<bool> CreateSlikaAvtokampa(Slike slika, int kamp_id)
         {
-            using (var _db = new avtokampiContext())
-            {
-                _db.Slike.AddRange(slike);
-                _db.SaveChanges();
-                return true;
-            }
+            slika.CreatedAt = slika.Updated = DateTime.Now;
+            await _db.Slike.AddAsync(slika);
+            await _db.SaveChangesAsync();
+            return true;
         }
 
-        public Slike UpdateSlikaAvtokampa(Slike slika, int slika_id)
+        public async Task<bool> CreateSlikeAvtokampa(List<Slike> slike, int kamp_id)
         {
-            using (var _db = new avtokampiContext())
-            {
-                slika.Updated = DateTime.Now;
-                _db.Entry(slika).State = EntityState.Modified;
-                _db.Entry(slika).Property(x => x.CreatedAt).IsModified = false;
-                _db.SaveChanges();
-                return _db.Slike.Find(slika_id);
-            }
+            await _db.Slike.AddRangeAsync(slike);
+            await _db.SaveChangesAsync();
+            return true;
         }
 
-        public List<Slike> UpdateSlikeAvtokampa(List<Slike> slike, List<int> slika_id)
+        public async Task<Slike> UpdateSlikaAvtokampa(Slike slika, int slika_id)
         {
-            using (var _db = new avtokampiContext())
-            {
-                slike.ForEach(o => {
-                    o.Updated = DateTime.Now;
-                    _db.Entry(o).State = EntityState.Modified;
-                    _db.Entry(o).Property(x => x.CreatedAt).IsModified = false;
-                    _db.SaveChanges();
-                });
-                return slike;
-            }
+            slika.Updated = DateTime.Now;
+            _db.Entry(slika).State = EntityState.Modified;
+            _db.Entry(slika).Property(x => x.CreatedAt).IsModified = false;
+            await _db.SaveChangesAsync();
+            return await _db.Slike.FindAsync(slika_id);
         }
 
-        public bool RemoveSlikaAvtokampa(int slika_id)
+        public async Task<List<Slike>> UpdateSlikeAvtokampa(List<Slike> slike, List<int> slika_id)
         {
-            using (var _db = new avtokampiContext())
+            slike.ForEach(o =>
             {
-                _db.Slike.Remove(_db.Slike.Find(slika_id));
-                _db.SaveChanges();
-                return true;
-            }
+                o.Updated = DateTime.Now;
+                _db.Entry(o).State = EntityState.Modified;
+                _db.Entry(o).Property(x => x.CreatedAt).IsModified = false;
+                _db.SaveChangesAsync();
+            });
+            await _db.SaveChangesAsync();
+            return slike;
         }
 
-        public List<Ceniki> GetCenikiAvtokampa(int kamp_id)
+        public async Task<bool> RemoveSlikaAvtokampa(int slika_id)
         {
-            using (var _db = new avtokampiContext())
-            {
-                return _db.Ceniki.Where(o => o.Avtokamp == kamp_id).ToList();
-            }
+            _db.Slike.Remove(await _db.Slike.FindAsync(slika_id));
+            await _db.SaveChangesAsync();
+            return true;
         }
 
-        public Ceniki GetCenikAvtokampa(int cenik_id)
+        public async Task<List<Ceniki>> GetCenikiAvtokampa(int kamp_id)
         {
-            using (var _db = new avtokampiContext())
-            {
-                return _db.Ceniki.Find(cenik_id);
-            }
+            return await _db.Ceniki.Where(o => o.Avtokamp == kamp_id).ToListAsync();
         }
 
-        public bool CreateCenikAvtokampa(Ceniki cenik, int kamp_id)
+        public async Task<Ceniki> GetCenikAvtokampa(int cenik_id)
         {
-            using (var _db = new avtokampiContext())
-            {
-                cenik.CreatedAt = cenik.UpdatedAt = DateTime.Now;
-                _db.Ceniki.Add(cenik);
-                _db.SaveChanges();
-                return true;
-            }
+            return await _db.Ceniki.FindAsync(cenik_id);
         }
 
-        public Ceniki UpdateCenik(Ceniki cenik, int cenik_id)
+        public async Task<bool> CreateCenikAvtokampa(Ceniki cenik, int kamp_id)
         {
-            using (var _db = new avtokampiContext())
-            {
-                cenik.UpdatedAt = DateTime.Now;
-                _db.Entry(cenik).State = EntityState.Modified;
-                _db.Entry(cenik).Property(x => x.CreatedAt).IsModified = false;
-                _db.SaveChanges();
-                return _db.Ceniki.Find(cenik_id);
-            }
+            cenik.CreatedAt = cenik.UpdatedAt = DateTime.Now;
+            await _db.Ceniki.AddAsync(cenik);
+            await _db.SaveChangesAsync();
+            return true;
         }
 
-        public bool RemoveCenikAvtokampa(int cenik_id)
+        public async Task<Ceniki> UpdateCenik(Ceniki cenik, int cenik_id)
         {
-            using (var _db = new avtokampiContext())
-            {
-                _db.Ceniki.Remove(_db.Ceniki.Find(cenik_id));
-                _db.SaveChanges();
-                return true;
-            }
+            cenik.UpdatedAt = DateTime.Now;
+            _db.Entry(cenik).State = EntityState.Modified;
+            _db.Entry(cenik).Property(x => x.CreatedAt).IsModified = false;
+            await _db.SaveChangesAsync();
+            return await _db.Ceniki.FindAsync(cenik_id);
         }
 
-        public List<Regije> GetRegije()
+        public async Task<bool> RemoveCenikAvtokampa(int cenik_id)
         {
-            using (var _db = new avtokampiContext())
-            {
-                return _db.Regije.ToList();
-            }
+            _db.Ceniki.Remove(await _db.Ceniki.FindAsync(cenik_id));
+            await _db.SaveChangesAsync();
+            return true;
         }
 
-        public List<Drzave> GetDrzave()
+        public async Task<List<Regije>> GetRegije()
         {
-            using (var _db = new avtokampiContext())
-            {
-                return _db.Drzave.ToList();
-            }
+            return await _db.Regije.ToListAsync();
+        }
+
+        public async Task<List<Drzave>> GetDrzave()
+        {
+            return await _db.Drzave.ToListAsync();
         }
     }
 }

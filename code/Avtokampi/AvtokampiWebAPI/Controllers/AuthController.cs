@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
+using System.Threading.Tasks;
 
 namespace AvtokampiWebAPI.Controllers
 {
@@ -34,7 +35,7 @@ namespace AvtokampiWebAPI.Controllers
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
         [ProducesResponseType(401)]
-        public IActionResult RequestToken([FromBody] TokenModel request)
+        public async Task<IActionResult> RequestToken([FromBody] TokenModel request)
         {
             try
             {
@@ -43,10 +44,10 @@ namespace AvtokampiWebAPI.Controllers
                 //    return BadRequest(ModelState);
                 //}
 
-                string token;
-                if (_authService.IsAuthenticated(request, out token))
+                var result = await _authService.IsAuthenticated(request);
+                if (result.Item1)
                 {
-                    return Ok(new { token });
+                    return Ok(new { token = result.Item2 });
                 }
 
                 return Unauthorized(/*new ErrorHandlerModel("Napačno uporabniško ime ali geslo", HttpStatusCode.Unauthorized)*/);
@@ -70,7 +71,7 @@ namespace AvtokampiWebAPI.Controllers
         [ProducesResponseType(201)]
         [ProducesResponseType(400)]
         [ProducesResponseType(401)]
-        public IActionResult RequestRegister([FromBody] RegisterModel user)
+        public async Task<IActionResult> RequestRegister([FromBody] RegisterModel user)
         {
             try
             {
@@ -79,8 +80,8 @@ namespace AvtokampiWebAPI.Controllers
                     return BadRequest(ModelState);
                 }
 
-                var result = _authService.IsRegister(user);
-                if (result == null)
+                var result = await _authService.IsRegister(user);
+                if (result == false)
                 {
                     return BadRequest();
                 }

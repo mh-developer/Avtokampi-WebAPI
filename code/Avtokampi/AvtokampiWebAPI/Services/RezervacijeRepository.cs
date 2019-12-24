@@ -4,74 +4,61 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace AvtokampiWebAPI.Services
 {
     public class RezervacijeRepository : IRezervacijeRepository
     {
-        public List<Rezervacije> GetRezervacijeByUporabnik(int uporabnik_id)
+        private readonly avtokampiContext _db;
+
+        public RezervacijeRepository(avtokampiContext db)
         {
-            using (var _db = new avtokampiContext())
-            {
-                return _db.Rezervacije.Where(o => o.Uporabnik == uporabnik_id).ToList();
-            }
+            _db = db;
         }
 
-        public Rezervacije GetRezervacijaByID(int rez_id)
-        {
-            using (var _db = new avtokampiContext())
-            {
-                return _db.Rezervacije.Where(o => o.RezervacijaId == rez_id).FirstOrDefault();
-            }
+        public async Task<List<Rezervacije>> GetRezervacijeByUporabnik(int uporabnik_id)
+        {   
+            return await _db.Rezervacije.Where(o => o.Uporabnik == uporabnik_id).ToListAsync();
         }
 
-        public bool CreateRezervacija(Rezervacije rez)
+        public async Task<Rezervacije> GetRezervacijaByID(int rez_id)
         {
-            using (var _db = new avtokampiContext())
-            {
-                rez.CreatedAt = rez.UpdatedAt = DateTime.Now;
-                _db.Rezervacije.Add(rez);
-                _db.SaveChanges();
-                return true;
-            }
+            return await _db.Rezervacije.Where(o => o.RezervacijaId == rez_id).FirstOrDefaultAsync();
         }
 
-        public Rezervacije UpdateRezervacija(Rezervacije rez, int rez_id)
+        public async Task<bool> CreateRezervacija(Rezervacije rez)
         {
-            using (var _db = new avtokampiContext())
-            {
-                rez.UpdatedAt = DateTime.Now;
-                _db.Entry(rez).State = EntityState.Modified;
-                _db.Entry(rez).Property(x => x.CreatedAt).IsModified = false;
-                _db.SaveChanges();
-                return _db.Rezervacije.Find(rez_id);
-            }
+            rez.CreatedAt = rez.UpdatedAt = DateTime.Now;
+            await _db.Rezervacije.AddAsync(rez);
+            await _db.SaveChangesAsync();
+            return true;
         }
 
-        public bool RemoveRezervacija(int rez_id)
+        public async Task<Rezervacije> UpdateRezervacija(Rezervacije rez, int rez_id)
         {
-            using (var _db = new avtokampiContext())
-            {
-                _db.Rezervacije.Remove(_db.Rezervacije.Find(rez_id));
-                _db.SaveChanges();
-                return true;
-            }
+            rez.UpdatedAt = DateTime.Now;
+            _db.Entry(rez).State = EntityState.Modified;
+            _db.Entry(rez).Property(x => x.CreatedAt).IsModified = false;
+            await _db.SaveChangesAsync();
+            return await _db.Rezervacije.FindAsync(rez_id);
         }
 
-        public List<VrstaKampiranja> GetVrstaKmapiranja()
+        public async Task<bool> RemoveRezervacija(int rez_id)
         {
-            using (var _db = new avtokampiContext())
-            {
-                return _db.VrstaKampiranja.ToList();
-            }
+            _db.Rezervacije.Remove(await _db.Rezervacije.FindAsync(rez_id));
+            await _db.SaveChangesAsync();
+            return true;
         }
 
-        public List<StatusRezervacije> GetStatusRezervacije()
+        public async Task<List<VrstaKampiranja>> GetVrstaKmapiranja()
         {
-            using (var _db = new avtokampiContext())
-            {
-                return _db.StatusRezervacije.ToList();
-            }
+            return await _db.VrstaKampiranja.ToListAsync();
+        }
+
+        public async Task<List<StatusRezervacije>> GetStatusRezervacije()
+        {
+            return await _db.StatusRezervacije.ToListAsync();
         }
     }
 }

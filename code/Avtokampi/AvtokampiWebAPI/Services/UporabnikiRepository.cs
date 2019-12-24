@@ -4,116 +4,91 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace AvtokampiWebAPI.Services
 {
     public class UporabnikiRepository : IUporabnikiRepository
     {
-        public Uporabniki GetUporabnikByID(int id)
+        private readonly avtokampiContext _db;
+
+        public UporabnikiRepository(avtokampiContext db)
         {
-            using (var _db = new avtokampiContext())
-            {
-                return _db.Uporabniki.Find(id);
-            }
+            _db = db;
         }
 
-        public Uporabniki GetUporabnikByUsername(string username)
+        public async Task<Uporabniki> GetUporabnikByID(int id)
         {
-            using (var _db = new avtokampiContext())
-            {
-                return _db.Uporabniki.Where(o => o.Email == username).FirstOrDefault();
-            }
+            return await _db.Uporabniki.FindAsync(id);
         }
 
-        public Uporabniki UpdateUporabnik(Uporabniki uporabnik, int uporabnik_id)
+        public async Task<Uporabniki> GetUporabnikByUsername(string username)
         {
-            using (var _db = new avtokampiContext())
-            {
-                uporabnik.UpdatedAt = DateTime.Now;
-                _db.Entry(uporabnik).State = EntityState.Modified;
-                _db.Entry(uporabnik).Property(x => x.CreatedAt).IsModified = false;
-                _db.SaveChanges();
-                return _db.Uporabniki.Find(uporabnik_id);
-            }
+            return await _db.Uporabniki.Where(o => o.Email == username).FirstOrDefaultAsync();
         }
 
-        public bool RemoveUporabnik(int uporabnik_id)
+        public async Task<Uporabniki> UpdateUporabnik(Uporabniki uporabnik, int uporabnik_id)
         {
-            using (var _db = new avtokampiContext())
-            {
-                _db.Uporabniki.Remove(_db.Uporabniki.Find(uporabnik_id));
-                _db.SaveChanges();
-                return true;
-            }
+            uporabnik.UpdatedAt = DateTime.Now;
+            _db.Entry(uporabnik).State = EntityState.Modified;
+            _db.Entry(uporabnik).Property(x => x.CreatedAt).IsModified = false;
+            await _db.SaveChangesAsync();
+            return await _db.Uporabniki.FindAsync(uporabnik_id);
         }
 
-        public List<Mnenja> GetMnenjeByUporabnik(int uporabnik_id)
+        public async Task<bool> RemoveUporabnik(int uporabnik_id)
         {
-            using (var _db = new avtokampiContext())
-            {
-                return _db.Mnenja.Where(o => o.Uporabnik == uporabnik_id).ToList();
-            }
+            _db.Uporabniki.Remove(await _db.Uporabniki.FindAsync(uporabnik_id));
+            await _db.SaveChangesAsync();
+            return true;
         }
 
-        public List<Mnenja> GetMnenjeByAvtokamp(int kamp_id)
+        public async Task<List<Mnenja>> GetMnenjeByUporabnik(int uporabnik_id)
         {
-            using (var _db = new avtokampiContext())
-            {
-                return _db.Mnenja.Where(o => o.Avtokamp == kamp_id).ToList();
-            }
+            return await _db.Mnenja.Where(o => o.Uporabnik == uporabnik_id).ToListAsync();
         }
 
-        public Mnenja GetMnenje(int mnenje_id)
+        public async Task<List<Mnenja>> GetMnenjeByAvtokamp(int kamp_id)
         {
-            using (var _db = new avtokampiContext())
-            {
-                return _db.Mnenja.Where(o => o.MnenjeId == mnenje_id).FirstOrDefault();
-            }
+            return await _db.Mnenja.Where(o => o.Avtokamp == kamp_id).ToListAsync();
         }
 
-        public bool CreateMnenje(Mnenja mnenje, int kamp_id)
+        public async Task<Mnenja> GetMnenje(int mnenje_id)
         {
-            using (var _db = new avtokampiContext())
-            {
-                _db.Mnenja.Add(mnenje);
-                _db.SaveChanges();
-                return true;
-            }
+            return await _db.Mnenja.Where(o => o.MnenjeId == mnenje_id).FirstOrDefaultAsync();
         }
 
-        public Mnenja UpdateMnenje(Mnenja mnenje, int mnenje_id)
+        public async Task<bool> CreateMnenje(Mnenja mnenje, int kamp_id)
         {
-            using(var _db = new avtokampiContext())
-            {
-                mnenje.UpdatedAt = DateTime.Now;
-                _db.Entry(mnenje).State = EntityState.Modified;
-                _db.Entry(mnenje).Property(x => x.CreatedAt).IsModified = false;
-                _db.SaveChanges();
-                return _db.Mnenja.Find(mnenje_id);
-            }
+            await _db.Mnenja.AddAsync(mnenje);
+            await _db.SaveChangesAsync();
+            return true;
         }
 
-        public bool RemoveMnenje(int mnenje_id)
+        public async Task<Mnenja> UpdateMnenje(Mnenja mnenje, int mnenje_id)
         {
-            using (var _db = new avtokampiContext())
-            {
-                _db.Mnenja.Remove(_db.Mnenja.Find(mnenje_id));
-                _db.SaveChanges();
-                return true;
-            }
+            mnenje.UpdatedAt = DateTime.Now;
+            _db.Entry(mnenje).State = EntityState.Modified;
+            _db.Entry(mnenje).Property(x => x.CreatedAt).IsModified = false;
+            await _db.SaveChangesAsync();
+            return await _db.Mnenja.FindAsync(mnenje_id);
         }
 
-        public bool UporabnikExists(string username = null, int? up_id = null)
+        public async Task<bool> RemoveMnenje(int mnenje_id)
         {
-            using (var _db = new avtokampiContext())
-            {
-                if (!string.IsNullOrWhiteSpace(username))
-                {
-                    return _db.Uporabniki.Where(o => o.Email == username).Any();
-                }
+            _db.Mnenja.Remove(await _db.Mnenja.FindAsync(mnenje_id));
+            await _db.SaveChangesAsync();
+            return true;
+        }
 
-                return up_id != null ? _db.Uporabniki.Where(o => o.UporabnikId == up_id).Any() : false;
+        public async Task<bool> UporabnikExists(string username = null, int? up_id = null)
+        {
+            if (!string.IsNullOrWhiteSpace(username))
+            {
+                return await _db.Uporabniki.Where(o => o.Email == username).AnyAsync();
             }
+
+            return up_id != null ? await _db.Uporabniki.Where(o => o.UporabnikId == up_id).AnyAsync() : false;
         }
     }
 }

@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
+using System.Threading.Tasks;
 
 namespace AvtokampiWebAPI.Controllers
 {
@@ -40,11 +41,11 @@ namespace AvtokampiWebAPI.Controllers
         [ProducesResponseType(200)]
         [ProducesResponseType(404)]
         [ProducesResponseType(400)]
-        public IActionResult GetUporabnikByID(int user_id)
+        public async Task<IActionResult> GetUporabnikByID(int user_id)
         {
             try
             {
-                var result = _uporabnikiService.GetUporabnikByID(user_id);
+                var result = await _uporabnikiService.GetUporabnikByID(user_id);
                 if (result == null)
                 {
                     return NotFound(/*new ErrorHandlerModel($"Zaposleni z ID { id }, ne obstaja.", HttpStatusCode.NotFound)*/);
@@ -80,11 +81,11 @@ namespace AvtokampiWebAPI.Controllers
         [ProducesResponseType(200)]
         [ProducesResponseType(404)]
         [ProducesResponseType(400)]
-        public IActionResult GetUporabnikByUsername(string username)
+        public async Task<IActionResult> GetUporabnikByUsername(string username)
         {
             try
             {
-                var result = _uporabnikiService.GetUporabnikByUsername(username);
+                var result = await _uporabnikiService.GetUporabnikByUsername(username);
                 if (result == null)
                 {
                     return NotFound(/*new ErrorHandlerModel($"Zaposleni z ID { id }, ne obstaja.", HttpStatusCode.NotFound)*/);
@@ -120,11 +121,11 @@ namespace AvtokampiWebAPI.Controllers
         [ProducesResponseType(200)]
         [ProducesResponseType(404)]
         [ProducesResponseType(400)]
-        public IActionResult GetMnenjeByUporabnik(int user_id)
+        public async Task<IActionResult> GetMnenjeByUporabnik(int user_id)
         {
             try
             {
-                var result = _uporabnikiService.GetMnenjeByUporabnik(user_id);
+                var result = await _uporabnikiService.GetMnenjeByUporabnik(user_id);
                 if (result == null)
                 {
                     return NotFound(/*new ErrorHandlerModel($"Zaposleni z ID { id }, ne obstaja.", HttpStatusCode.NotFound)*/);
@@ -160,11 +161,11 @@ namespace AvtokampiWebAPI.Controllers
         [ProducesResponseType(200)]
         [ProducesResponseType(404)]
         [ProducesResponseType(400)]
-        public IActionResult GetMnenjeByAvtokamp(int kamp_id)
+        public async Task<IActionResult> GetMnenjeByAvtokamp(int kamp_id)
         {
             try
             {
-                var result = _uporabnikiService.GetMnenjeByAvtokamp(kamp_id);
+                var result = await _uporabnikiService.GetMnenjeByAvtokamp(kamp_id);
                 if (result == null)
                 {
                     return NotFound(/*new ErrorHandlerModel($"Zaposleni z ID { id }, ne obstaja.", HttpStatusCode.NotFound)*/);
@@ -200,11 +201,11 @@ namespace AvtokampiWebAPI.Controllers
         [ProducesResponseType(200)]
         [ProducesResponseType(404)]
         [ProducesResponseType(400)]
-        public IActionResult GetMnenje(int mnenje_id)
+        public async Task<IActionResult> GetMnenje(int mnenje_id)
         {
             try
             {
-                var result = _uporabnikiService.GetMnenje(mnenje_id);
+                var result = await _uporabnikiService.GetMnenje(mnenje_id);
                 if (result == null)
                 {
                     return NotFound(/*new ErrorHandlerModel($"Zaposleni z ID { id }, ne obstaja.", HttpStatusCode.NotFound)*/);
@@ -244,12 +245,12 @@ namespace AvtokampiWebAPI.Controllers
         [ProducesResponseType(201)]
         [ProducesResponseType(404)]
         [ProducesResponseType(400)]
-        public IActionResult CreateMnenje([FromBody] Mnenja mnenje, int kamp_id)
+        public async Task<IActionResult> CreateMnenje([FromBody] Mnenja mnenje, int kamp_id)
         {
             try
             {
-                var result = _uporabnikiService.CreateMnenje(mnenje, kamp_id);
-                if (result == null)
+                var result = await _uporabnikiService.CreateMnenje(mnenje, kamp_id);
+                if (result == false)
                 {
                     return NotFound(/*new ErrorHandlerModel($"Zaposleni z ID { id }, ne obstaja.", HttpStatusCode.NotFound)*/);
                 }
@@ -288,11 +289,11 @@ namespace AvtokampiWebAPI.Controllers
         [ProducesResponseType(204)]
         [ProducesResponseType(404)]
         [ProducesResponseType(400)]
-        public IActionResult UpdateMnenje([FromBody] Mnenja mnenje, int mnenje_id)
+        public async Task<IActionResult> UpdateMnenje([FromBody] Mnenja mnenje, int mnenje_id)
         {
             try
             {
-                var result = _uporabnikiService.UpdateMnenje(mnenje, mnenje_id);
+                var result = await _uporabnikiService.UpdateMnenje(mnenje, mnenje_id);
                 if (result == null)
                 {
                     return NotFound(/*new ErrorHandlerModel($"Zaposleni z ID { id }, ne obstaja.", HttpStatusCode.NotFound)*/);
@@ -328,12 +329,12 @@ namespace AvtokampiWebAPI.Controllers
         [ProducesResponseType(204)]
         [ProducesResponseType(404)]
         [ProducesResponseType(400)]
-        public IActionResult RemoveMnenje(int mnenje_id)
+        public async Task<IActionResult> RemoveMnenje(int mnenje_id)
         {
             try
             {
-                var result = _uporabnikiService.RemoveMnenje(mnenje_id);
-                if (result == null)
+                var result = await _uporabnikiService.RemoveMnenje(mnenje_id);
+                if (result == false)
                 {
                     return NotFound(/*new ErrorHandlerModel($"Zaposleni z ID { id }, ne obstaja.", HttpStatusCode.NotFound)*/);
                 }

@@ -11,6 +11,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using Newtonsoft.Json;
+using Npgsql;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -31,14 +33,13 @@ namespace AvtokampiWebAPI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers();
+            services.AddControllers().AddNewtonsoftJson(x => x.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore);
+
 
             // DB models service
             services.AddEntityFrameworkNpgsql().AddDbContext<avtokampiContext>(options =>
                 options.UseNpgsql(Configuration.GetConnectionString("Avtokampi"))
             );
-            services.AddDbContext<avtokampiContext>(options => options.UseNpgsql(Configuration.GetConnectionString("Avtokampi")));
-
 
 
             // JWT Token services
