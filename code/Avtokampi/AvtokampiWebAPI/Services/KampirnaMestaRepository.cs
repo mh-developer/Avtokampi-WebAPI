@@ -4,65 +4,66 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace AvtokampiWebAPI.Services
 {
     public class KampirnaMestaRepository : IKampirnaMestaRepository
     {
-        public List<KampirnaMesta> GetKampirnoMestoByAvtokamp(int avtokamp_id)
+        public async Task<List<KampirnaMesta>> GetKampirnoMestoByAvtokamp(int avtokamp_id)
         {
             using (var _db = new avtokampiContext())
             {
-                return _db.KampirnaMesta.Where(o => o.Avtokamp == avtokamp_id).ToList();
+                return await _db.KampirnaMesta.Where(o => o.Avtokamp == avtokamp_id).ToListAsync();
             }
         }
 
-        public KampirnaMesta GetKampirnoMestoByID(int kamp_mesto_id)
+        public async Task<KampirnaMesta> GetKampirnoMestoByID(int kamp_mesto_id)
         {
             using (var _db = new avtokampiContext())
             {
-                return _db.KampirnaMesta.Where(o => o.KampirnoMestoId == kamp_mesto_id).FirstOrDefault();
+                return await _db.KampirnaMesta.Where(o => o.KampirnoMestoId == kamp_mesto_id).FirstOrDefaultAsync();
             }
         }
 
-        public bool CreateKampirnoMesto(KampirnaMesta kamp_mesto, int kamp_id)
+        public async Task<bool> CreateKampirnoMesto(KampirnaMesta kamp_mesto, int kamp_id)
         {
             using (var _db = new avtokampiContext())
             {
                 kamp_mesto.CreatedAt = kamp_mesto.UpdatedAt = DateTime.Now;
-                _db.Add(kamp_mesto);
-                _db.SaveChanges();
+                await _db.AddAsync(kamp_mesto);
+                await _db.SaveChangesAsync();
                 return true;
             }
         }
 
-        public KampirnaMesta UpdateKampirnoMesto(KampirnaMesta kamp_mesto, int kamp_id, int kamp_mesto_id)
+        public async Task<KampirnaMesta> UpdateKampirnoMesto(KampirnaMesta kamp_mesto, int kamp_id, int kamp_mesto_id)
         {
             using (var _db = new avtokampiContext())
             {
                 kamp_mesto.UpdatedAt = DateTime.Now;
                 _db.Entry(kamp_mesto).State = EntityState.Modified;
                 _db.Entry(kamp_mesto).Property(x => x.CreatedAt).IsModified = false;
-                _db.SaveChanges();
-                return _db.KampirnaMesta.Find(kamp_mesto_id);
+                await _db.SaveChangesAsync();
+                return await _db.KampirnaMesta.FindAsync(kamp_mesto_id);
             }
         }
 
-        public bool RemoveKampMesto(int kamp_id, int kamp_mesto_id)
+        public async Task<bool> RemoveKampMesto(int kamp_id, int kamp_mesto_id)
         {
             using (var _db = new avtokampiContext())
             {
-                _db.KampirnaMesta.Remove(_db.KampirnaMesta.Where(o => o.Avtokamp == kamp_id && o.KampirnoMestoId == kamp_mesto_id).FirstOrDefault());
-                _db.SaveChanges();
+                _db.KampirnaMesta.Remove(await _db.KampirnaMesta.Where(o => o.Avtokamp == kamp_id && o.KampirnoMestoId == kamp_mesto_id).FirstOrDefaultAsync());
+                await _db.SaveChangesAsync();
                 return true;
             }
         }
 
-        public List<Kategorije> GetKategorijeKampirnihMest()
+        public async Task<List<Kategorije>> GetKategorijeKampirnihMest()
         {
             using (var _db = new avtokampiContext())
             {
-                return _db.Kategorije.ToList();
+                return await _db.Kategorije.ToListAsync();
             }
         }
     }

@@ -1,30 +1,31 @@
 ﻿using AvtokampiWebAPI.Models;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace AvtokampiWebAPI.Services.Interfaces
 {
     public interface IUporabnikiRepository
     {
-        Uporabniki GetUporabnikByID(int id);
+        Task<Uporabniki> GetUporabnikByID(int id);
 
-        Uporabniki GetUporabnikByUsername(string username);
+        Task<Uporabniki> GetUporabnikByUsername(string username);
 
-        Uporabniki UpdateUporabnik(Uporabniki uporabnik, int uporabnik_id);
+        Task<Uporabniki> UpdateUporabnik(Uporabniki uporabnik, int uporabnik_id);
 
-        bool RemoveUporabnik(int uporabnik_id);
+        Task<bool> RemoveUporabnik(int uporabnik_id);
 
-        List<Mnenja> GetMnenjeByUporabnik(int uporabnik_id);
+        Task<List<Mnenja>> GetMnenjeByUporabnik(int uporabnik_id);
 
-        List<Mnenja> GetMnenjeByAvtokamp(int kamp_id);
+        Task<List<Mnenja>> GetMnenjeByAvtokamp(int kamp_id);
 
-        Mnenja GetMnenje(int mnenje_id);
+        Task<Mnenja> GetMnenje(int mnenje_id);
 
-        bool CreateMnenje(Mnenja mnenje, int kamp_id);
+        Task<bool> CreateMnenje(Mnenja mnenje, int kamp_id);
 
-        Mnenja UpdateMnenje(Mnenja mnenje, int mnenje_id);
+        Task<Mnenja> UpdateMnenje(Mnenja mnenje, int mnenje_id);
 
-        bool RemoveMnenje(int mnenje_id);
+        Task<bool> RemoveMnenje(int mnenje_id);
 
-        bool UporabnikExists(string username = null, int? up_id = null);
+        Task<bool> UporabnikExists(string username = null, int? up_id = null);
     }
 }

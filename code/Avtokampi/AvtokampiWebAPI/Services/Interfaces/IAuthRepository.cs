@@ -1,13 +1,15 @@
 ﻿using AvtokampiWebAPI.Models;
+using System;
+using System.Threading.Tasks;
 
 namespace AvtokampiWebAPI.Services.Interfaces
 {
     public interface IAuthRepository
     {
-        bool IsAuthenticated(TokenModel request, out string token);
+        Task<Tuple<bool, string>> IsAuthenticated(TokenModel request);
 
-        bool IsValidUser(string username, string password);
+        Task<bool> IsValidUser(string username, string password);
 
-        bool IsRegister(RegisterModel user);
+        Task<bool> IsRegister(RegisterModel user);
     }
 }

@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
+using System.Threading.Tasks;
 
 namespace AvtokampiWebAPI.Controllers
 {
@@ -40,11 +41,11 @@ namespace AvtokampiWebAPI.Controllers
         [ProducesResponseType(200)]
         [ProducesResponseType(404)]
         [ProducesResponseType(400)]
-        public IActionResult GetRerezvacijeByUporabnik(int user_id)
+        public async Task<IActionResult> GetRerezvacijeByUporabnik(int user_id)
         {
             try
             {
-                var result = _rezervacijeService.GetRezervacijeByUporabnik(user_id);
+                var result = await _rezervacijeService.GetRezervacijeByUporabnik(user_id);
                 if (result == null)
                 {
                     return NotFound(/*new ErrorHandlerModel($"Zaposleni z ID { id }, ne obstaja.", HttpStatusCode.NotFound)*/);
@@ -76,11 +77,11 @@ namespace AvtokampiWebAPI.Controllers
         [ProducesResponseType(200)]
         [ProducesResponseType(404)]
         [ProducesResponseType(400)]
-        public IActionResult GetRezervacijaByID(int rez_id)
+        public async Task<IActionResult> GetRezervacijaByID(int rez_id)
         {
             try
             {
-                var result = _rezervacijeService.GetRezervacijaByID(rez_id);
+                var result = await _rezervacijeService.GetRezervacijaByID(rez_id);
                 if (result == null)
                 {
                     return NotFound(/*new ErrorHandlerModel($"Zaposleni z ID { id }, ne obstaja.", HttpStatusCode.NotFound)*/);
@@ -119,11 +120,11 @@ namespace AvtokampiWebAPI.Controllers
         [ProducesResponseType(201)]
         [ProducesResponseType(404)]
         [ProducesResponseType(400)]
-        public IActionResult CreateRezervacija([FromBody] Rezervacije rezervacija)
+        public async Task<IActionResult> CreateRezervacija([FromBody] Rezervacije rezervacija)
         {
             try
             {
-                var result = _rezervacijeService.CreateRezervacija(rezervacija);
+                var result = await _rezervacijeService.CreateRezervacija(rezervacija);
                 if (result == null)
                 {
                     return NotFound(/*new ErrorHandlerModel($"Zaposleni z ID { id }, ne obstaja.", HttpStatusCode.NotFound)*/);
@@ -163,11 +164,11 @@ namespace AvtokampiWebAPI.Controllers
         [ProducesResponseType(204)]
         [ProducesResponseType(404)]
         [ProducesResponseType(400)]
-        public IActionResult UpdateRezervacije([FromBody] Rezervacije rezervacija, int rez_id)
+        public async Task<IActionResult> UpdateRezervacije([FromBody] Rezervacije rezervacija, int rez_id)
         {
             try
             {
-                var result = _rezervacijeService.UpdateRezervacija(rezervacija, rez_id);
+                var result = await _rezervacijeService.UpdateRezervacija(rezervacija, rez_id);
                 if (result == null)
                 {
                     return NotFound(/*new ErrorHandlerModel($"Zaposleni z ID { id }, ne obstaja.", HttpStatusCode.NotFound)*/);
@@ -203,11 +204,11 @@ namespace AvtokampiWebAPI.Controllers
         [ProducesResponseType(204)]
         [ProducesResponseType(404)]
         [ProducesResponseType(400)]
-        public IActionResult DeleteRezervacija(int rez_id)
+        public async Task<IActionResult> DeleteRezervacija(int rez_id)
         {
             try
             {
-                var result = _rezervacijeService.RemoveRezervacija(rez_id);
+                var result = await _rezervacijeService.RemoveRezervacija(rez_id);
                 if (result == null)
                 {
                     return NotFound(/*new ErrorHandlerModel($"Zaposleni z ID { id }, ne obstaja.", HttpStatusCode.NotFound)*/);
@@ -242,11 +243,11 @@ namespace AvtokampiWebAPI.Controllers
         [ProducesResponseType(200)]
         [ProducesResponseType(404)]
         [ProducesResponseType(400)]
-        public IActionResult GetVrstaKmapiranja()
+        public async Task<IActionResult> GetVrstaKmapiranja()
         {
             try
             {
-                var result = _rezervacijeService.GetVrstaKmapiranja();
+                var result = await _rezervacijeService.GetVrstaKmapiranja();
                 if (result == null)
                 {
                     return NotFound(/*new ErrorHandlerModel($"Zaposleni z ID { id }, ne obstaja.", HttpStatusCode.NotFound)*/);
@@ -277,11 +278,11 @@ namespace AvtokampiWebAPI.Controllers
         [ProducesResponseType(200)]
         [ProducesResponseType(404)]
         [ProducesResponseType(400)]
-        public IActionResult GetStatusRezervacije()
+        public async Task<IActionResult> GetStatusRezervacije()
         {
             try
             {
-                var result = _rezervacijeService.GetStatusRezervacije();
+                var result = await _rezervacijeService.GetStatusRezervacije();
                 if (result == null)
                 {
                     return NotFound(/*new ErrorHandlerModel($"Zaposleni z ID { id }, ne obstaja.", HttpStatusCode.NotFound)*/);

@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace AvtokampiWebAPI.Controllers
 {
@@ -16,11 +17,13 @@ namespace AvtokampiWebAPI.Controllers
     {
         private readonly IAvtokampiRepository _avtokampiService;
         private readonly ILogger _logger;
+        private readonly avtokampiContext _db;
 
-        public AvtokampiController(IAvtokampiRepository avtokampiService, ILogger<AvtokampiController> logger)
+        public AvtokampiController(IAvtokampiRepository avtokampiService, ILogger<AvtokampiController> logger, avtokampiContext db)
         {
             _avtokampiService = avtokampiService;
             _logger = logger;
+            _db = db;
         }
 
 
@@ -42,11 +45,11 @@ namespace AvtokampiWebAPI.Controllers
         [ProducesResponseType(404)]
         [ProducesResponseType(400)]
         [AllowAnonymous]
-        public IActionResult GetAllAvtokampi()
+        public async Task<IActionResult> GetAllAvtokampi()
         {
             try
             {
-                var result = _avtokampiService.GetAll();
+                var result = await _avtokampiService.GetAll();
                 if (result == null)
                 {
                     return NotFound(/*new ErrorHandlerModel($"Zaposleni z ID { id }, ne obstaja.", HttpStatusCode.NotFound)*/);
@@ -56,7 +59,7 @@ namespace AvtokampiWebAPI.Controllers
             catch (Exception e)
             {
                 _logger.LogError("GET all avtokampi Unhandled exception ...", e);
-                return BadRequest(/*new ErrorHandlerModel(e.Message, HttpStatusCode.BadRequest)*/);
+                return BadRequest(e/*new ErrorHandlerModel(e.Message, HttpStatusCode.BadRequest)*/);
             }
         }
 
@@ -79,11 +82,11 @@ namespace AvtokampiWebAPI.Controllers
         [ProducesResponseType(200)]
         [ProducesResponseType(404)]
         [ProducesResponseType(400)]
-        public IActionResult GetAvtokamp(int kamp_id)
+        public async Task<IActionResult> GetAvtokamp(int kamp_id)
         {
             try
             {
-                var result = _avtokampiService.GetAvtokampByID(kamp_id);
+                var result = await _avtokampiService.GetAvtokampByID(kamp_id);
                 if (result == null)
                 {
                     return NotFound(/*new ErrorHandlerModel($"Zaposleni z ID { id }, ne obstaja.", HttpStatusCode.NotFound)*/);
@@ -122,11 +125,11 @@ namespace AvtokampiWebAPI.Controllers
         [ProducesResponseType(201)]
         [ProducesResponseType(404)]
         [ProducesResponseType(400)]
-        public IActionResult CreateAvtokamp([FromBody] Avtokampi avtokamp)
+        public async Task<IActionResult> CreateAvtokamp([FromBody] Avtokampi avtokamp)
         {
             try
             {
-                var result = _avtokampiService.CreateAvtokamp(avtokamp);
+                var result = await _avtokampiService.CreateAvtokamp(avtokamp);
                 if (result == null)
                 {
                     return NotFound(/*new ErrorHandlerModel($"Zaposleni z ID { id }, ne obstaja.", HttpStatusCode.NotFound)*/);
@@ -152,7 +155,15 @@ namespace AvtokampiWebAPI.Controllers
         ///
         ///     PUT api/Avtokampi/1234
         ///     {
-        ///         "Naziv": "Novo ime avtokampa"
+        ///         "avtokampId": 1,
+        ///         "naziv": "Kamp NJIVICE2",
+        ///         "opis": "Opis kampa2",
+        ///         "naslov": "Večna pot 112",
+        ///         "telefon": "083211232",
+        ///         "nazivLokacije": "Njivice",
+        ///         "koordinataX": "45.33399",
+        ///         "koordinataY": "22.19993",
+        ///         "regija": 1
         ///     }
         ///
         /// </remarks>
@@ -166,11 +177,11 @@ namespace AvtokampiWebAPI.Controllers
         [ProducesResponseType(204)]
         [ProducesResponseType(404)]
         [ProducesResponseType(400)]
-        public IActionResult UpdateAvtokampi([FromBody] Avtokampi avtokamp, int kamp_id)
+        public async Task<IActionResult> UpdateAvtokampi([FromBody] Avtokampi avtokamp, int kamp_id)
         {
             try
             {
-                var result = _avtokampiService.UpdateAvtokamp(avtokamp, kamp_id);
+                var result = await _avtokampiService.UpdateAvtokamp(avtokamp, kamp_id);
                 if (result == null)
                 {
                     return NotFound(/*new ErrorHandlerModel($"Zaposleni z ID { id }, ne obstaja.", HttpStatusCode.NotFound)*/);
@@ -206,11 +217,11 @@ namespace AvtokampiWebAPI.Controllers
         [ProducesResponseType(204)]
         [ProducesResponseType(404)]
         [ProducesResponseType(400)]
-        public IActionResult DeleteAvtokampi(int kamp_id)
+        public async Task<IActionResult> DeleteAvtokampi(int kamp_id)
         {
             try
             {
-                var result = _avtokampiService.RemoveAvtokamp(kamp_id);
+                var result = await _avtokampiService.RemoveAvtokamp(kamp_id);
                 if (result == null)
                 {
                     return NotFound(/*new ErrorHandlerModel($"Zaposleni z ID { id }, ne obstaja.", HttpStatusCode.NotFound)*/);
@@ -247,11 +258,11 @@ namespace AvtokampiWebAPI.Controllers
         [ProducesResponseType(404)]
         [ProducesResponseType(400)]
         [AllowAnonymous]
-        public IActionResult GetSlikeAvtokampa(int kamp_id)
+        public async Task<IActionResult> GetSlikeAvtokampa(int kamp_id)
         {
             try
             {
-                var result = _avtokampiService.GetSlikeAvtokampa(kamp_id);
+                var result = await _avtokampiService.GetSlikeAvtokampa(kamp_id);
                 if (result == null)
                 {
                     return NotFound(/*new ErrorHandlerModel($"Zaposleni z ID { id }, ne obstaja.", HttpStatusCode.NotFound)*/);
@@ -291,11 +302,11 @@ namespace AvtokampiWebAPI.Controllers
         [ProducesResponseType(201)]
         [ProducesResponseType(404)]
         [ProducesResponseType(400)]
-        public IActionResult CreateSlikaAvtokampa([FromBody] Slike slika, int kamp_id)
+        public async Task<IActionResult> CreateSlikaAvtokampa([FromBody] Slike slika, int kamp_id)
         {
             try
             {
-                var result = _avtokampiService.CreateSlikaAvtokampa(slika, kamp_id);
+                var result = await _avtokampiService.CreateSlikaAvtokampa(slika, kamp_id);
                 if (result == null)
                 {
                     return NotFound(/*new ErrorHandlerModel($"Zaposleni z ID { id }, ne obstaja.", HttpStatusCode.NotFound)*/);
@@ -335,11 +346,11 @@ namespace AvtokampiWebAPI.Controllers
         [ProducesResponseType(201)]
         [ProducesResponseType(404)]
         [ProducesResponseType(400)]
-        public IActionResult CreateListSlikeAvtokampa([FromBody] List<Slike> slike, int kamp_id)
+        public async Task<IActionResult> CreateListSlikeAvtokampa([FromBody] List<Slike> slike, int kamp_id)
         {
             try
             {
-                var result = _avtokampiService.CreateSlikeAvtokampa(slike, kamp_id);
+                var result =await _avtokampiService.CreateSlikeAvtokampa(slike, kamp_id);
                 if (result == null)
                 {
                     return NotFound(/*new ErrorHandlerModel($"Zaposleni z ID { id }, ne obstaja.", HttpStatusCode.NotFound)*/);
@@ -379,11 +390,11 @@ namespace AvtokampiWebAPI.Controllers
         [ProducesResponseType(204)]
         [ProducesResponseType(404)]
         [ProducesResponseType(400)]
-        public IActionResult UpdateSlikaAvtokampa([FromBody] Slike slika, int slika_id)
+        public async Task<IActionResult> UpdateSlikaAvtokampa([FromBody] Slike slika, int slika_id)
         {
             try
             {
-                var result = _avtokampiService.UpdateSlikaAvtokampa(slika, slika_id);
+                var result = await _avtokampiService.UpdateSlikaAvtokampa(slika, slika_id);
                 if (result == null)
                 {
                     return NotFound(/*new ErrorHandlerModel($"Zaposleni z ID { id }, ne obstaja.", HttpStatusCode.NotFound)*/);
@@ -424,11 +435,11 @@ namespace AvtokampiWebAPI.Controllers
         //[ProducesResponseType(204)]
         //[ProducesResponseType(404)]
         //[ProducesResponseType(400)]
-        //public IActionResult UpdateSlikeAvtokampa([FromBody] List<Slike> slike, [FromBody] List<int> slike_ids, int slike_id)
+        //public async Task<IActionResult> UpdateSlikeAvtokampa([FromBody] List<Slike> slike, [FromBody] List<int> slike_ids, int slike_id)
         //{
         //    try
         //    {
-        //        var result = _avtokampiService.UpdateSlikeAvtokampa(slike, slike_ids);
+        //        var result = await _avtokampiService.UpdateSlikeAvtokampa(slike, slike_ids);
         //        if (result == null)
         //        {
         //            return NotFound(/*new ErrorHandlerModel($"Zaposleni z ID { id }, ne obstaja.", HttpStatusCode.NotFound)*/);
@@ -464,11 +475,11 @@ namespace AvtokampiWebAPI.Controllers
         [ProducesResponseType(204)]
         [ProducesResponseType(404)]
         [ProducesResponseType(400)]
-        public IActionResult DeleteSlikaAvtokampa(int slika_id)
+        public async Task<IActionResult> DeleteSlikaAvtokampa(int slika_id)
         {
             try
             {
-                var result = _avtokampiService.RemoveSlikaAvtokampa(slika_id);
+                var result = await _avtokampiService.RemoveSlikaAvtokampa(slika_id);
                 if (result == null)
                 {
                     return NotFound(/*new ErrorHandlerModel($"Zaposleni z ID { id }, ne obstaja.", HttpStatusCode.NotFound)*/);
@@ -505,11 +516,11 @@ namespace AvtokampiWebAPI.Controllers
         [ProducesResponseType(404)]
         [ProducesResponseType(400)]
         [AllowAnonymous]
-        public IActionResult GetCenikiAvtokampa(int kamp_id)
+        public async Task<IActionResult> GetCenikiAvtokampa(int kamp_id)
         {
             try
             {
-                var result = _avtokampiService.GetCenikiAvtokampa(kamp_id);
+                var result = await _avtokampiService.GetCenikiAvtokampa(kamp_id);
                 if (result == null)
                 {
                     return NotFound(/*new ErrorHandlerModel($"Zaposleni z ID { id }, ne obstaja.", HttpStatusCode.NotFound)*/);
@@ -546,11 +557,11 @@ namespace AvtokampiWebAPI.Controllers
         [ProducesResponseType(404)]
         [ProducesResponseType(400)]
         [AllowAnonymous]
-        public IActionResult GetCenikAvtokampa(int cenik_id)
+        public async Task<IActionResult> GetCenikAvtokampa(int cenik_id)
         {
             try
             {
-                var result = _avtokampiService.GetCenikAvtokampa(cenik_id);
+                var result = await _avtokampiService.GetCenikAvtokampa(cenik_id);
                 if (result == null)
                 {
                     return NotFound(/*new ErrorHandlerModel($"Zaposleni z ID { id }, ne obstaja.", HttpStatusCode.NotFound)*/);
@@ -590,11 +601,11 @@ namespace AvtokampiWebAPI.Controllers
         [ProducesResponseType(201)]
         [ProducesResponseType(404)]
         [ProducesResponseType(400)]
-        public IActionResult CreateCenikAvtokampa([FromBody] Ceniki cenik, int kamp_id)
+        public async Task<IActionResult> CreateCenikAvtokampa([FromBody] Ceniki cenik, int kamp_id)
         {
             try
             {
-                var result = _avtokampiService.CreateCenikAvtokampa(cenik, kamp_id);
+                var result = await _avtokampiService.CreateCenikAvtokampa(cenik, kamp_id);
                 if (result == null)
                 {
                     return NotFound(/*new ErrorHandlerModel($"Zaposleni z ID { id }, ne obstaja.", HttpStatusCode.NotFound)*/);
@@ -634,11 +645,11 @@ namespace AvtokampiWebAPI.Controllers
         [ProducesResponseType(204)]
         [ProducesResponseType(404)]
         [ProducesResponseType(400)]
-        public IActionResult UpdateCenikAvtokampa([FromBody] Ceniki cenik, int cenik_id)
+        public async Task<IActionResult> UpdateCenikAvtokampa([FromBody] Ceniki cenik, int cenik_id)
         {
             try
             {
-                var result = _avtokampiService.UpdateCenik(cenik, cenik_id);
+                var result = await _avtokampiService.UpdateCenik(cenik, cenik_id);
                 if (result == null)
                 {
                     return NotFound(/*new ErrorHandlerModel($"Zaposleni z ID { id }, ne obstaja.", HttpStatusCode.NotFound)*/);
@@ -674,11 +685,11 @@ namespace AvtokampiWebAPI.Controllers
         [ProducesResponseType(204)]
         [ProducesResponseType(404)]
         [ProducesResponseType(400)]
-        public IActionResult DeleteCenikAvtokampa(int cenik_id)
+        public async Task<IActionResult> DeleteCenikAvtokampa(int cenik_id)
         {
             try
             {
-                var result = _avtokampiService.RemoveCenikAvtokampa(cenik_id);
+                var result = await _avtokampiService.RemoveCenikAvtokampa(cenik_id);
                 if (result == null)
                 {
                     return NotFound(/*new ErrorHandlerModel($"Zaposleni z ID { id }, ne obstaja.", HttpStatusCode.NotFound)*/);
@@ -714,11 +725,11 @@ namespace AvtokampiWebAPI.Controllers
         [ProducesResponseType(404)]
         [ProducesResponseType(400)]
         [AllowAnonymous]
-        public IActionResult GetRegije()
+        public async Task<IActionResult> GetRegije()
         {
             try
             {
-                var result = _avtokampiService.GetRegije();
+                var result = await _avtokampiService.GetRegije();
                 if (result == null)
                 {
                     return NotFound(/*new ErrorHandlerModel($"Zaposleni z ID { id }, ne obstaja.", HttpStatusCode.NotFound)*/);
@@ -750,11 +761,11 @@ namespace AvtokampiWebAPI.Controllers
         [ProducesResponseType(404)]
         [ProducesResponseType(400)]
         [AllowAnonymous]
-        public IActionResult GetDrzave()
+        public async Task<IActionResult> GetDrzave()
         {
             try
             {
-                var result = _avtokampiService.GetDrzave();
+                var result = await _avtokampiService.GetDrzave();
                 if (result == null)
                 {
                     return NotFound(/*new ErrorHandlerModel($"Zaposleni z ID { id }, ne obstaja.", HttpStatusCode.NotFound)*/);

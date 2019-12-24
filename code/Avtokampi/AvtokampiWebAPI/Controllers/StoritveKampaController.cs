@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
+using System.Threading.Tasks;
 
 namespace AvtokampiWebAPI.Controllers
 {
@@ -40,11 +41,11 @@ namespace AvtokampiWebAPI.Controllers
         [ProducesResponseType(200)]
         [ProducesResponseType(404)]
         [ProducesResponseType(400)]
-        public IActionResult GetStoritveAvtokampa(int kamp_id)
+        public async Task<IActionResult> GetStoritveAvtokampa(int kamp_id)
         {
             try
             {
-                var result = _storitveKampaService.GetStortiveByAvtokamp(kamp_id);
+                var result = await _storitveKampaService.GetStortiveByAvtokamp(kamp_id);
                 if (result == null)
                 {
                     return NotFound(/*new ErrorHandlerModel($"Zaposleni z ID { id }, ne obstaja.", HttpStatusCode.NotFound)*/);
@@ -76,11 +77,11 @@ namespace AvtokampiWebAPI.Controllers
         [ProducesResponseType(200)]
         [ProducesResponseType(404)]
         [ProducesResponseType(400)]
-        public IActionResult GetStoritveKampirnegaMesta(int kamp_mesto_id)
+        public async Task<IActionResult> GetStoritveKampirnegaMesta(int kamp_mesto_id)
         {
             try
             {
-                var result = _storitveKampaService.GetStoritveByKampirnoMesto(kamp_mesto_id);
+                var result = await _storitveKampaService.GetStoritveByKampirnoMesto(kamp_mesto_id);
                 if (result == null)
                 {
                     return NotFound(/*new ErrorHandlerModel($"Zaposleni z ID { id }, ne obstaja.", HttpStatusCode.NotFound)*/);
@@ -116,11 +117,11 @@ namespace AvtokampiWebAPI.Controllers
         [ProducesResponseType(200)]
         [ProducesResponseType(404)]
         [ProducesResponseType(400)]
-        public IActionResult GetStoritev(int storitev_id)
+        public async Task<IActionResult> GetStoritev(int storitev_id)
         {
             try
             {
-                var result = _storitveKampaService.GetStoritevByID(storitev_id);
+                var result = await _storitveKampaService.GetStoritevByID(storitev_id);
                 if (result == null)
                 {
                     return NotFound(/*new ErrorHandlerModel($"Zaposleni z ID { id }, ne obstaja.", HttpStatusCode.NotFound)*/);
@@ -160,11 +161,11 @@ namespace AvtokampiWebAPI.Controllers
         [ProducesResponseType(201)]
         [ProducesResponseType(404)]
         [ProducesResponseType(400)]
-        public IActionResult CreateStoritev([FromBody] Storitve storitev, int kamp_id)
+        public async Task<IActionResult> CreateStoritev([FromBody] Storitve storitev, int kamp_id)
         {
             try
             {
-                var result = _storitveKampaService.CreateStoritev(storitev, kamp_id);
+                var result = await _storitveKampaService.CreateStoritev(storitev, kamp_id);
                 if (result == null)
                 {
                     return NotFound(/*new ErrorHandlerModel($"Zaposleni z ID { id }, ne obstaja.", HttpStatusCode.NotFound)*/);
@@ -204,11 +205,11 @@ namespace AvtokampiWebAPI.Controllers
         [ProducesResponseType(204)]
         [ProducesResponseType(404)]
         [ProducesResponseType(400)]
-        public IActionResult UpdateStoritev([FromBody] Storitve storitev, int storitev_id)
+        public async Task<IActionResult> UpdateStoritev([FromBody] Storitve storitev, int storitev_id)
         {
             try
             {
-                var result = _storitveKampaService.UpdateStoritev(storitev, storitev_id);
+                var result = await _storitveKampaService.UpdateStoritev(storitev, storitev_id);
                 if (result == null)
                 {
                     return NotFound(/*new ErrorHandlerModel($"Zaposleni z ID { id }, ne obstaja.", HttpStatusCode.NotFound)*/);
@@ -244,11 +245,11 @@ namespace AvtokampiWebAPI.Controllers
         [ProducesResponseType(204)]
         [ProducesResponseType(404)]
         [ProducesResponseType(400)]
-        public IActionResult DeleteStoritev(int storitev_id)
+        public async Task<IActionResult> DeleteStoritev(int storitev_id)
         {
             try
             {
-                var result = _storitveKampaService.RemoveStoritev(storitev_id);
+                var result = await _storitveKampaService.RemoveStoritev(storitev_id);
                 if (result == null)
                 {
                     return NotFound(/*new ErrorHandlerModel($"Zaposleni z ID { id }, ne obstaja.", HttpStatusCode.NotFound)*/);
@@ -283,11 +284,11 @@ namespace AvtokampiWebAPI.Controllers
         [ProducesResponseType(200)]
         [ProducesResponseType(404)]
         [ProducesResponseType(400)]
-        public IActionResult GetKategorijeStoritev()
+        public async Task<IActionResult> GetKategorijeStoritev()
         {
             try
             {
-                var result = _storitveKampaService.GetKategorijeStoritev();
+                var result = await _storitveKampaService.GetKategorijeStoritev();
                 if (result == null)
                 {
                     return NotFound(/*new ErrorHandlerModel($"Zaposleni z ID { id }, ne obstaja.", HttpStatusCode.NotFound)*/);
