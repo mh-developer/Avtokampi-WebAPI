@@ -126,7 +126,7 @@ namespace AvtokampiWebAPI.Controllers
             try
             {
                 var result = await _kampirnaMestaService.CreateKampirnoMesto(kamp_mesto, kamp_id);
-                if (result == null)
+                if (result == false)
                 {
                     return NotFound(/*new ErrorHandlerModel($"Zaposleni z ID { id }, ne obstaja.", HttpStatusCode.NotFound)*/);
                 }
@@ -212,7 +212,7 @@ namespace AvtokampiWebAPI.Controllers
             try
             {
                 var result = await _kampirnaMestaService.RemoveKampMesto(kamp_id, kamp_mesto_id);
-                if (result == null)
+                if (result == false)
                 {
                     return NotFound(/*new ErrorHandlerModel($"Zaposleni z ID { id }, ne obstaja.", HttpStatusCode.NotFound)*/);
                 }

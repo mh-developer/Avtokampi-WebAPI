@@ -35,11 +35,11 @@ namespace AvtokampiWebAPI
         {
             services.AddControllers().AddNewtonsoftJson(x => x.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore);
 
+
             // DB models service
             services.AddEntityFrameworkNpgsql().AddDbContext<avtokampiContext>(options =>
                 options.UseNpgsql(Configuration.GetConnectionString("Avtokampi"))
             );
-
 
 
             // JWT Token services

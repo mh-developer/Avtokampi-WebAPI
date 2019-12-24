@@ -250,7 +250,7 @@ namespace AvtokampiWebAPI.Controllers
             try
             {
                 var result = await _uporabnikiService.CreateMnenje(mnenje, kamp_id);
-                if (result == null)
+                if (result == false)
                 {
                     return NotFound(/*new ErrorHandlerModel($"Zaposleni z ID { id }, ne obstaja.", HttpStatusCode.NotFound)*/);
                 }
@@ -334,7 +334,7 @@ namespace AvtokampiWebAPI.Controllers
             try
             {
                 var result = await _uporabnikiService.RemoveMnenje(mnenje_id);
-                if (result == null)
+                if (result == false)
                 {
                     return NotFound(/*new ErrorHandlerModel($"Zaposleni z ID { id }, ne obstaja.", HttpStatusCode.NotFound)*/);
                 }

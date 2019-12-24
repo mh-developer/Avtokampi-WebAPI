@@ -166,7 +166,7 @@ namespace AvtokampiWebAPI.Controllers
             try
             {
                 var result = await _storitveKampaService.CreateStoritev(storitev, kamp_id);
-                if (result == null)
+                if (result == false)
                 {
                     return NotFound(/*new ErrorHandlerModel($"Zaposleni z ID { id }, ne obstaja.", HttpStatusCode.NotFound)*/);
                 }
@@ -250,7 +250,7 @@ namespace AvtokampiWebAPI.Controllers
             try
             {
                 var result = await _storitveKampaService.RemoveStoritev(storitev_id);
-                if (result == null)
+                if (result == false)
                 {
                     return NotFound(/*new ErrorHandlerModel($"Zaposleni z ID { id }, ne obstaja.", HttpStatusCode.NotFound)*/);
                 }

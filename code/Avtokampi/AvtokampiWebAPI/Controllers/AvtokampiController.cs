@@ -59,7 +59,7 @@ namespace AvtokampiWebAPI.Controllers
             catch (Exception e)
             {
                 _logger.LogError("GET all avtokampi Unhandled exception ...", e);
-                return BadRequest(e/*new ErrorHandlerModel(e.Message, HttpStatusCode.BadRequest)*/);
+                return BadRequest(/*new ErrorHandlerModel(e.Message, HttpStatusCode.BadRequest)*/);
             }
         }
 
@@ -130,7 +130,7 @@ namespace AvtokampiWebAPI.Controllers
             try
             {
                 var result = await _avtokampiService.CreateAvtokamp(avtokamp);
-                if (result == null)
+                if (result == false)
                 {
                     return NotFound(/*new ErrorHandlerModel($"Zaposleni z ID { id }, ne obstaja.", HttpStatusCode.NotFound)*/);
                 }
@@ -222,7 +222,7 @@ namespace AvtokampiWebAPI.Controllers
             try
             {
                 var result = await _avtokampiService.RemoveAvtokamp(kamp_id);
-                if (result == null)
+                if (result == false)
                 {
                     return NotFound(/*new ErrorHandlerModel($"Zaposleni z ID { id }, ne obstaja.", HttpStatusCode.NotFound)*/);
                 }
@@ -307,7 +307,7 @@ namespace AvtokampiWebAPI.Controllers
             try
             {
                 var result = await _avtokampiService.CreateSlikaAvtokampa(slika, kamp_id);
-                if (result == null)
+                if (result == false)
                 {
                     return NotFound(/*new ErrorHandlerModel($"Zaposleni z ID { id }, ne obstaja.", HttpStatusCode.NotFound)*/);
                 }
@@ -350,8 +350,8 @@ namespace AvtokampiWebAPI.Controllers
         {
             try
             {
-                var result =await _avtokampiService.CreateSlikeAvtokampa(slike, kamp_id);
-                if (result == null)
+                var result = await _avtokampiService.CreateSlikeAvtokampa(slike, kamp_id);
+                if (result == false)
                 {
                     return NotFound(/*new ErrorHandlerModel($"Zaposleni z ID { id }, ne obstaja.", HttpStatusCode.NotFound)*/);
                 }
@@ -480,7 +480,7 @@ namespace AvtokampiWebAPI.Controllers
             try
             {
                 var result = await _avtokampiService.RemoveSlikaAvtokampa(slika_id);
-                if (result == null)
+                if (result == false)
                 {
                     return NotFound(/*new ErrorHandlerModel($"Zaposleni z ID { id }, ne obstaja.", HttpStatusCode.NotFound)*/);
                 }
@@ -606,7 +606,7 @@ namespace AvtokampiWebAPI.Controllers
             try
             {
                 var result = await _avtokampiService.CreateCenikAvtokampa(cenik, kamp_id);
-                if (result == null)
+                if (result == false)
                 {
                     return NotFound(/*new ErrorHandlerModel($"Zaposleni z ID { id }, ne obstaja.", HttpStatusCode.NotFound)*/);
                 }
@@ -690,7 +690,7 @@ namespace AvtokampiWebAPI.Controllers
             try
             {
                 var result = await _avtokampiService.RemoveCenikAvtokampa(cenik_id);
-                if (result == null)
+                if (result == false)
                 {
                     return NotFound(/*new ErrorHandlerModel($"Zaposleni z ID { id }, ne obstaja.", HttpStatusCode.NotFound)*/);
                 }

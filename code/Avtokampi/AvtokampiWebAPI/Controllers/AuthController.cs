@@ -81,7 +81,7 @@ namespace AvtokampiWebAPI.Controllers
                 }
 
                 var result = await _authService.IsRegister(user);
-                if (result == null)
+                if (result == false)
                 {
                     return BadRequest();
                 }
