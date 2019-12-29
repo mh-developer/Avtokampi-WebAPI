@@ -21,6 +21,21 @@ namespace AvtokampiWebAPI.Services
             return await _db.Storitve.ToListAsync();
         }
 
+        public async Task<List<Storitve>> GetStortiveByAvtokamp(int avtokamp_id)
+        {
+            var storitve_kampa = await _db.SoritveCenikov.Where(o => o.AvtokampiAvtokampId == avtokamp_id)
+                                                            .Select(o => o.StoritveStoritevId)
+                                                            .ToListAsync();
+            List<Storitve> storitve = new List<Storitve>();
+
+            storitve_kampa.ForEach(o =>
+            {
+                var storitev = _db.Storitve.Find(o);
+                storitve.Add(storitev);
+            });
+            return storitve;
+        }
+
         public async Task<List<Storitve>> GetStoritveByKampirnoMesto(int kampirno_mesto_id)
         {
             var storitve_kamp_mesta = await _db.StoritveKampirnihMest   .Where(o => o.KampirnoMesto == kampirno_mesto_id)
@@ -29,21 +44,6 @@ namespace AvtokampiWebAPI.Services
             List<Storitve> storitve = new List<Storitve>();
 
             storitve_kamp_mesta.ForEach(o =>
-            {
-                var storitev = _db.Storitve.Find(o);
-                storitve.Add(storitev);
-            });
-            return storitve;
-        }
-
-        public async Task<List<Storitve>> GetStortiveByAvtokamp(int avtokamp_id)
-        {
-            var storitve_kampa = await _db.SoritveCenikov   .Where(o => o.AvtokampiAvtokampId == avtokamp_id)
-                                                            .Select(o => o.StoritveStoritevId)
-                                                            .ToListAsync();
-            List<Storitve> storitve = new List<Storitve>();
-
-            storitve_kampa.ForEach(o =>
             {
                 var storitev = _db.Storitve.Find(o);
                 storitve.Add(storitev);
@@ -73,6 +73,13 @@ namespace AvtokampiWebAPI.Services
         public async Task<bool> RemoveStoritev(int storitev_id)
         {
             _db.Storitve.Remove(await _db.Storitve.FindAsync(storitev_id));
+            await _db.SaveChangesAsync();
+            return true;
+        }
+
+        public async Task<bool> CreateStoritevKapirnegaMesta(StoritveKampirnihMest storitev, int kamp_mesto_id)
+        {
+            await _db.StoritveKampirnihMest.AddAsync(storitev);
             await _db.SaveChangesAsync();
             return true;
         }

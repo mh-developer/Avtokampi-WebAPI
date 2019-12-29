@@ -20,6 +20,8 @@ namespace AvtokampiWebAPI.Services.Interfaces
 
         Task<bool> RemoveStoritev(int storitev_id);
 
+        Task<bool> CreateStoritevKapirnegaMesta(StoritveKampirnihMest storitev, int kamp_mesto_id);
+
         Task<List<KategorijeStoritev>> GetKategorijeStoritev();
     }
 }
