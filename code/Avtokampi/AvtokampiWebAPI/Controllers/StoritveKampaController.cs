@@ -24,6 +24,42 @@ namespace AvtokampiWebAPI.Controllers
         }
 
         /// <summary>
+        ///     Seznam vseh storitev
+        /// </summary>
+        /// <remarks>
+        /// Primer zahtevka:
+        ///
+        ///     GET api/storitvekampa
+        ///
+        /// </remarks>
+        /// <returns>Seznam vseh storitev</returns>
+        /// <response code="200">Seznam storitev avtokampa</response>
+        /// <response code="400">Bad request error massage</response>
+        /// <response code="404">Not found error massage</response>
+        [HttpGet]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(404)]
+        [ProducesResponseType(400)]
+        [AllowAnonymous]
+        public async Task<IActionResult> GetStoritve()
+        {
+            try
+            {
+                var result = await _storitveKampaService.GetStoritve();
+                if (result == null)
+                {
+                    return NotFound(/*new ErrorHandlerModel($"Zaposleni z ID { id }, ne obstaja.", HttpStatusCode.NotFound)*/);
+                }
+                return Ok(result);
+            }
+            catch (Exception e)
+            {
+                _logger.LogError("GET storitve Unhandled exception ...", e);
+                return BadRequest(/*new ErrorHandlerModel(e.Message, HttpStatusCode.BadRequest)*/);
+            }
+        }
+
+        /// <summary>
         ///     Seznam storitev avtokampa
         /// </summary>
         /// <remarks>
@@ -41,6 +77,7 @@ namespace AvtokampiWebAPI.Controllers
         [ProducesResponseType(200)]
         [ProducesResponseType(404)]
         [ProducesResponseType(400)]
+        [AllowAnonymous]
         public async Task<IActionResult> GetStoritveAvtokampa(int kamp_id)
         {
             try
@@ -77,6 +114,7 @@ namespace AvtokampiWebAPI.Controllers
         [ProducesResponseType(200)]
         [ProducesResponseType(404)]
         [ProducesResponseType(400)]
+        [AllowAnonymous]
         public async Task<IActionResult> GetStoritveKampirnegaMesta(int kamp_mesto_id)
         {
             try
@@ -117,6 +155,7 @@ namespace AvtokampiWebAPI.Controllers
         [ProducesResponseType(200)]
         [ProducesResponseType(404)]
         [ProducesResponseType(400)]
+        [AllowAnonymous]
         public async Task<IActionResult> GetStoritev(int storitev_id)
         {
             try
@@ -284,6 +323,7 @@ namespace AvtokampiWebAPI.Controllers
         [ProducesResponseType(200)]
         [ProducesResponseType(404)]
         [ProducesResponseType(400)]
+        [AllowAnonymous]
         public async Task<IActionResult> GetKategorijeStoritev()
         {
             try

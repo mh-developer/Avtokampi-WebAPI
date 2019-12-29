@@ -6,6 +6,8 @@ namespace AvtokampiWebAPI.Services.Interfaces
 {
     public interface IStoritveKampaRepository
     {
+        Task<List<Storitve>> GetStoritve();
+
         Task<List<Storitve>> GetStoritveByKampirnoMesto(int kampirno_mesto_id);
 
         Task<List<Storitve>> GetStortiveByAvtokamp(int avtokamp_id);

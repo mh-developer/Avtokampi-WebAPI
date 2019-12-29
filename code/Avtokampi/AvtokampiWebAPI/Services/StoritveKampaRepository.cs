@@ -1,7 +1,6 @@
 ﻿using AvtokampiWebAPI.Models;
 using AvtokampiWebAPI.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -17,16 +16,22 @@ namespace AvtokampiWebAPI.Services
             _db = db;
         }
 
+        public async Task<List<Storitve>> GetStoritve()
+        {
+            return await _db.Storitve.ToListAsync();
+        }
+
         public async Task<List<Storitve>> GetStoritveByKampirnoMesto(int kampirno_mesto_id)
         {
             var storitve_kamp_mesta = await _db.StoritveKampirnihMest   .Where(o => o.KampirnoMesto == kampirno_mesto_id)
                                                                         .Select(o => o.Storitev)
                                                                         .ToListAsync();
-            List<Storitve> storitve = null;
+            List<Storitve> storitve = new List<Storitve>();
 
             storitve_kamp_mesta.ForEach(o =>
             {
-                storitve.Add(_db.Storitve.Find(o));
+                var storitev = _db.Storitve.Find(o);
+                storitve.Add(storitev);
             });
             return storitve;
         }
@@ -36,11 +41,12 @@ namespace AvtokampiWebAPI.Services
             var storitve_kampa = await _db.SoritveCenikov   .Where(o => o.AvtokampiAvtokampId == avtokamp_id)
                                                             .Select(o => o.StoritveStoritevId)
                                                             .ToListAsync();
-            List<Storitve> storitve = null;
+            List<Storitve> storitve = new List<Storitve>();
 
             storitve_kampa.ForEach(o =>
             {
-                storitve.Add(_db.Storitve.Find(o));
+                var storitev = _db.Storitve.Find(o);
+                storitve.Add(storitev);
             });
             return storitve;
         }
