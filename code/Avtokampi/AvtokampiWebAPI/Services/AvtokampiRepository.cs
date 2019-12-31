@@ -17,6 +17,14 @@ namespace AvtokampiWebAPI.Services
             _db = db;
         }
 
+        public async Task<List<Avtokampi>> GetPage(AvtokampiParameters avtokampiParameters)
+        {
+            return await _db.Avtokampi.OrderBy(on => on.Naziv)
+                                      .Skip((avtokampiParameters.PageNumber - 1) * avtokampiParameters.PageSize)
+                                      .Take(avtokampiParameters.PageSize)
+                                      .ToListAsync();
+        }
+
         public async Task<List<Avtokampi>> GetAll()
         {
             return await _db.Avtokampi.ToListAsync();

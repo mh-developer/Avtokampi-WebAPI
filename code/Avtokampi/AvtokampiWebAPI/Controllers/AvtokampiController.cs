@@ -26,6 +26,42 @@ namespace AvtokampiWebAPI.Controllers
 
 
         /// <summary>
+        ///     Seznam avtokampov na stan
+        /// </summary>
+        /// <remarks>
+        /// Primer zahtevka:
+        ///
+        ///     GET api/Avtokampi/Paging
+        ///
+        /// </remarks>
+        /// <returns>Seznam aktivnih avtokampov</returns>
+        /// <response code="200">Seznam avtokampov</response>
+        /// <response code="400">Bad request error massage</response>
+        /// <response code="404">Not found error massage</response>
+        [HttpGet("Paging")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(404)]
+        [ProducesResponseType(400)]
+        [AllowAnonymous]
+        public async Task<IActionResult> GetAvtokampiPaging([FromQuery] AvtokampiParameters avtokampiParameters)
+        {
+            try
+            {
+                var result = await _avtokampiService.GetPage(avtokampiParameters);
+                if (result == null)
+                {
+                    return NotFound(/*new ErrorHandlerModel($"Zaposleni z ID { id }, ne obstaja.", HttpStatusCode.NotFound)*/);
+                }
+                return Ok(result);
+            }
+            catch (Exception e)
+            {
+                _logger.LogError("GET all avtokampi Unhandled exception ...", e);
+                return BadRequest(/*new ErrorHandlerModel(e.Message, HttpStatusCode.BadRequest)*/);
+            }
+        }
+
+        /// <summary>
         ///     Seznam avtokampov
         /// </summary>
         /// <remarks>
