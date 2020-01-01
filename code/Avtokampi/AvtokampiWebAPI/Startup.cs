@@ -136,7 +136,7 @@ namespace AvtokampiWebAPI
             });
 
             app.UseCors(
-                options => options.AllowAnyOrigin().AllowAnyMethod()
+                options => options.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod()
             );
 
             app.UseRouting();
