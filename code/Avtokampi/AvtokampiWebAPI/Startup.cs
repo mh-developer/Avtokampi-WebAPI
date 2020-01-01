@@ -136,11 +136,7 @@ namespace AvtokampiWebAPI
             });
 
             app.UseCors(
-                options => options.WithOrigins(
-                                                "https://kampiraj.ga",
-                                                "https://www.kampiraj.ga",
-                                                "https://api.kampiraj.ga"
-                                              ).AllowAnyMethod()
+                options => options.AllowAnyOrigin().AllowAnyMethod()
             );
 
             app.UseRouting();
