@@ -6,6 +6,8 @@ namespace AvtokampiWebAPI.Services.Interfaces
 {
     public interface IAvtokampiRepository
     {
+        Task<PagedList<Avtokampi>> GetPage(AvtokampiParameters avtokampiParameters);
+
         Task<List<Avtokampi>> GetAll();
 
         Task<Avtokampi> GetAvtokampByID(int kamp_id);

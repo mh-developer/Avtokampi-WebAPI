@@ -12,7 +12,6 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Newtonsoft.Json;
-using Npgsql;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -33,6 +32,7 @@ namespace AvtokampiWebAPI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddCors();
             services.AddControllers().AddNewtonsoftJson(x => x.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore);
 
 
@@ -133,6 +133,10 @@ namespace AvtokampiWebAPI
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "Avtokampi");
                 c.RoutePrefix = string.Empty;
             });
+
+            app.UseCors(
+                options => options.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod()
+            );
 
             app.UseRouting();
 

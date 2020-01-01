@@ -3,6 +3,7 @@ using AvtokampiWebAPI.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -24,6 +25,57 @@ namespace AvtokampiWebAPI.Controllers
             _logger = logger;
         }
 
+
+        /// <summary>
+        ///     Seznam avtokampov na stan
+        /// </summary>
+        /// <remarks>
+        /// Primer zahtevka:
+        ///
+        ///     GET api/Avtokampi/Paging
+        ///
+        /// </remarks>
+        /// <returns>Seznam aktivnih avtokampov</returns>
+        /// <response code="200">Seznam avtokampov</response>
+        /// <response code="400">Bad request error massage</response>
+        /// <response code="404">Not found error massage</response>
+        [HttpGet("Paging")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(404)]
+        [ProducesResponseType(400)]
+        [AllowAnonymous]
+        public async Task<IActionResult> GetAvtokampiPaging([FromQuery] AvtokampiParameters avtokampiParameters)
+        {
+            try
+            {
+                var result = await _avtokampiService.GetPage(avtokampiParameters);
+                if (result == null)
+                {
+                    return NotFound(/*new ErrorHandlerModel($"Zaposleni z ID { id }, ne obstaja.", HttpStatusCode.NotFound)*/);
+                }
+
+                var metadata = new
+                {
+                    result.TotalCount,
+                    result.PageSize,
+                    result.CurrentPage,
+                    result.TotalPages,
+                    result.HasNext,
+                    result.HasPrevious
+                };
+
+                Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(metadata));
+
+                _logger.LogInformation($"Returned {result.TotalCount} owners from database.");
+
+                return Ok(result);
+            }
+            catch (Exception e)
+            {
+                _logger.LogError("GET all avtokampi Unhandled exception ...", e);
+                return BadRequest(/*new ErrorHandlerModel(e.Message, HttpStatusCode.BadRequest)*/);
+            }
+        }
 
         /// <summary>
         ///     Seznam avtokampov
