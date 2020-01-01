@@ -6,7 +6,7 @@ namespace AvtokampiWebAPI.Services.Interfaces
 {
     public interface IAvtokampiRepository
     {
-        Task<List<Avtokampi>> GetPage(AvtokampiParameters avtokampiParameters);
+        Task<PagedList<Avtokampi>> GetPage(AvtokampiParameters avtokampiParameters);
 
         Task<List<Avtokampi>> GetAll();
 
