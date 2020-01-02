@@ -161,6 +161,7 @@ namespace AvtokampiWebAPI.Controllers
         [ProducesResponseType(200)]
         [ProducesResponseType(404)]
         [ProducesResponseType(400)]
+        [AllowAnonymous]
         public async Task<IActionResult> GetMnenjeByAvtokamp(int kamp_id)
         {
             try
