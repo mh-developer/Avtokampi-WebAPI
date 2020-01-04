@@ -58,6 +58,11 @@ namespace AvtokampiWebAPI.Services
             return true;
         }
 
+        public async Task<Slike> GetSlikaAvtokampa(int kamp_id)
+        {
+            return await _db.Slike.Where(o => o.Avtokamp == kamp_id).FirstOrDefaultAsync();
+        }
+
         public async Task<List<Slike>> GetSlikeAvtokampa(int kamp_id)
         {
             return await _db.Slike.Where(o => o.Avtokamp == kamp_id).ToListAsync();

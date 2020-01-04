@@ -18,6 +18,8 @@ namespace AvtokampiWebAPI.Services.Interfaces
 
         Task<bool> RemoveAvtokamp(int avtokamp_id);
 
+        Task<Slike> GetSlikaAvtokampa(int kamp_id);
+
         Task<List<Slike>> GetSlikeAvtokampa(int kamp_id);
 
         Task<bool> CreateSlikaAvtokampa(Slike slika, int kamp_id);

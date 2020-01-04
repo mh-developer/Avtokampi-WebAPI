@@ -290,6 +290,47 @@ namespace AvtokampiWebAPI.Controllers
         }
 
         /// <summary>
+        ///     Prva slika za posamezni avtokamp
+        /// </summary>
+        /// <remarks>
+        /// Primer zahtevka:
+        ///
+        ///     GET api/Avtokampi/1234/slika
+        ///
+        /// </remarks>
+        /// <returns>Objekt slika Avtokampa</returns>
+        /// <param name="kamp_id">Identifikator avtokampa</param>
+        /// <response code="200">Slika Avtokampa</response>
+        /// <response code="400">Bad request error massage</response>
+        /// <response code="404">Not found error massage</response>
+        [HttpGet("{kamp_id}/slika")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(404)]
+        [ProducesResponseType(400)]
+        [AllowAnonymous]
+        public async Task<IActionResult> GetSlikaAvtokampa(int kamp_id)
+        {
+            try
+            {
+                var result = await _avtokampiService.GetSlikaAvtokampa(kamp_id);
+                if (result == null)
+                {
+                    return NotFound(/*new ErrorHandlerModel($"Zaposleni z ID { id }, ne obstaja.", HttpStatusCode.NotFound)*/);
+                }
+                return Ok(result);
+            }
+            catch (ArgumentException)
+            {
+                return BadRequest(/*new ErrorHandlerModel($"Argument ID { id } ni v pravilni obliki.", HttpStatusCode.BadRequest)*/);
+            }
+            catch (Exception e)
+            {
+                _logger.LogError("GET slike avtokamp Unhandled exception ...", e);
+                return BadRequest(/*new ErrorHandlerModel(e.Message, HttpStatusCode.BadRequest)*/);
+            }
+        }
+
+        /// <summary>
         ///     Slike za posamezni avtokamp
         /// </summary>
         /// <remarks>
